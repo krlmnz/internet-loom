@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Grid with Circles</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        html, body {
+            width: 100%;
+            font-family: Geneva, Tahoma, sans-serif;
+            background: #F5F7F8;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: calc(100vw - 2vw);
+            height: calc(100vw - 2vw);
+            max-width: 512px;
+            max-height: 512px;
+            margin-top: 1vh;
+            padding: 1vw;
+            box-sizing: border-box;
+            background-color: white;
+            padding: 1rem;
+            border-radius: .5rem;
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(18, 1fr);
+            grid-template-rows: repeat(18, 1fr);
+            width: 100%;
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .cell {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .grid-item {
+            background-color: #ffffff;
+            border: .5px solid #ddd;
+        }
+
+        .circle {
+            width: 70%;
+            height: 70%;
+            background-color: black;
+            border-radius: 50%;
+        }
+
+     
+        .color-palette {
+            position: fixed;
+            bottom: 8px;
+            width: calc(96vw);
+            max-width: 960px;
+            background-color: white;
+            padding: 16px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, 32px);
+            gap: 8px;
+            box-sizing: border-box;
+            padding: 1rem;
+            border-radius: .5rem;
+            margin-top:1rem;
+           
+        }
+
+        .color-swatch {
+            width: 32px;
+            height: 32px;
+            border: 2px solid black;
+            border-radius: 50%;
+            cursor: pointer;
+            
+        }
+
+        .selected {
+            outline: 3px solid blue;
+        }
+        
+        
+           @media (max-width: 600px) {
+            .cell {
+                min-width: 16px;
+                min-height: 16px;
+                border: .5px solid #aaa;
+                
+            }
+            
+            .color-palette {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+         
+            background-color: white;
+            padding: 16px;
+            display: grid;
+           grid-template-columns: repeat(auto-fill, 32px);
+            gap: 8px;
+            box-sizing: border-box;
+            
+        }
+        
+        .color-swatch {
+            width: 32px;
+            height: 32px;
+            border: 2px solid black;
+            border-radius: 50%;
+            cursor: pointer;
+            
+        }
+
+        
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="grid-container" id="grid">
+            <!-- Circle elements will be added dynamically by JavaScript -->
+        </div>
+    </div>
+    <div class="color-palette" id="colorPalette">
+        <!-- Color swatches will be added dynamically by JavaScript -->
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const gridElement = document.getElementById('grid');
+            const colorPaletteElement = document.getElementById('colorPalette');
+            const totalRows = 18;
+            const totalCols = 18;
+            let selectedColor = null;
+
+            // Define a set of colors
+            const colors = [
+                '#FF5733', '#33FF57', '#3357FF', '#FF33A1', '#33FFA1', '#A133FF', '#FFA133', '#A1FF33', '#A1A1A1',
+                '#FFC300', '#FF5733', '#C70039', '#900C3F', '#581845', '#FF33FF', '#FFFF33', '#33FFFF', '#F1C40F',
+                '#E74C3C', '#2ECC71', '#3498DB', '#9B59B6', '#34495E', '#16A085', '#27AE60', '#2980B9', '#8E44AD',
+                '#2C3E50', '#F39C12', '#D35400', '#C0392B', '#BDC3C7', '#7F8C8D', '#DFFF00', '#FFBF00', '#FF7F50',
+                '#DE3163', '#9FE2BF', '#40E0D0', '#6495ED', '#CCCCFF'
+            ];
+
+            // Create the grid
+            for (let row = 0; row < totalRows; row++) {
+                for (let col = 0; col < totalCols; col++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+
+                    if (row === 0 || row === totalRows - 1 || col === 0 || col === totalCols - 1) {
+                        const circle = document.createElement('div');
+                        circle.classList.add('circle');
+                        cell.appendChild(circle);
+                    } else {
+                        cell.classList.add('grid-item');
+                    }
+
+                    cell.addEventListener('click', (event) => {
+                        if (selectedColor) {
+                            if (event.target.classList.contains('circle')) {
+                                // Change the color of the entire row or column
+                                const isTopOrBottom = row === 0 || row === totalRows - 1;
+                                for (let i = 0; i < (isTopOrBottom ? totalRows : totalCols); i++) {
+                                    const index = isTopOrBottom ? i * totalCols + col : row * totalCols + i;
+                                    gridElement.children[index].style.backgroundColor = selectedColor;
+                                }
+                            } else {
+                                // Change the color of a single cell
+                                event.target.style.backgroundColor = selectedColor;
+                            }
+                        }
+                    });
+
+                    gridElement.appendChild(cell);
+                }
+            }
+
+            // Create color swatches
+            colors.forEach(color => {
+                const swatch = document.createElement('div');
+                swatch.classList.add('color-swatch');
+                swatch.style.backgroundColor = color;
+
+                swatch.addEventListener('click', () => {
+                    // Deselect the previously selected color
+                    document.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('selected'));
+                    // Select the clicked color
+                    swatch.classList.add('selected');
+                    selectedColor = color;
+                });
+
+                colorPaletteElement.appendChild(swatch);
+            });
+        });
+    </script>
+</body>
+</html>
