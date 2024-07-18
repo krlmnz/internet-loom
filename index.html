@@ -1,14 +1,4 @@
 <!DOCTYPE html>
-<html lang="en" >
-<head>
-  <meta charset="UTF-8">
-  <title>CodePen - A Pen by Karol Munoz</title>
-  <link rel="stylesheet" href="./style.css">
-
-</head>
-<body>
-<!-- partial:index.partial.html -->
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -29,6 +19,11 @@
         </nav>
         <div id="content-container">
             <div id="sidebar">
+               <div class="button-container">
+                        <button onclick="initializeCanvas(8, 8)">8x8</button>
+                        <button onclick="initializeCanvas(16, 16)">16x16</button>
+                        <button onclick="initializeCanvas(18, 18)">18x18</button>
+                    </div>
                 <h2>Themes</h2>
                 <select id="themeSelector">
                     <option value="default">Default</option>
@@ -74,20 +69,11 @@
                     <div class="canvas-container" id="canvasContainer">
                         <canvas id="weavingCanvas"></canvas>
                     </div>
-                    <div class="button-container">
-                        <button onclick="initializeCanvas(8, 8)">8x8</button>
-                        <button onclick="initializeCanvas(16, 16)">16x16</button>
-                        <button onclick="initializeCanvas(18, 18)">18x18</button>
-                    </div>
+                   
                 </div>
             </div>
         </div>
     </div>
     <script src="script.js"></script>
-</body>
-</html>
-<!-- partial -->
-  <script  src="./script.js"></script>
-
 </body>
 </html>
