@@ -1,6 +1,6 @@
 let mainCanvas = document.getElementById('weavingCanvas');
 let ctx = mainCanvas.getContext('2d');
-let gridSize = 8;
+let gridSize = 16;
 let cellSize;
 let grid = [];
 let selectedColor = '#000000';
@@ -43,6 +43,7 @@ function fillRow(row) {
         grid[row][col] = selectedColor;
     }
     drawGrid();
+    saveHistory();
 }
 
 function fillColumn(col) {
@@ -50,6 +51,7 @@ function fillColumn(col) {
         grid[row][col] = selectedColor;
     }
     drawGrid();
+    saveHistory();
 }
 
 function createClickAreas() {
@@ -96,8 +98,9 @@ mainCanvas.addEventListener('click', function(event) {
     const row = Math.floor(y / cellSize);
     grid[row][col] = selectedColor;
     drawGrid();
+    saveHistory();
 });
 
 window.addEventListener('resize', resizeCanvas);
 
-initializeCanvas(8, 8);
+initializeCanvas(16, 16);

@@ -1,11 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter&family=Ubuntu:wght@400;700&display=swap');
+:root {
+    --spacing-small: 8px;
+    --spacing-medium: 16px;
+    --spacing-large: 24px;
+    --color-bg: #F4F4F3;
+    --color-nav-bg: #2D2D2D;
+    --color-nav-text: #FFFFFF;
+    --color-button-bg: #EEEEEE;
+    --color-button-border: #545454;
+}
 
 html, body {
     height: 100%;
     width: 100%;
     margin: 0;
     padding: 0;
-    background: #F4F4F3;
+    background: var(--color-bg);
 }
 
 body {
@@ -20,47 +29,65 @@ body {
     flex-direction: column;
     width: 100%;
     height: 100%;
+    max-width: 1200px;
 }
 
 nav {
-    padding: .5rem;
+    padding: var(--spacing-medium);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #2D2D2D;
-    color: #fff;
+    background-color: var(--color-nav-bg);
+    color: var(--color-nav-text);
 }
 
-.secondary-nav {
-    padding: 0.5rem 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ffa500;
+.dropdown {
+    position: relative;
+    display: inline-block;
 }
 
-.nav-link {
-    color: white;
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--color-nav-bg);
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    color: var(--color-nav-text);
+}
+
+.dropdown-content button {
+    color: var(--color-nav-text);
+    padding: var(--spacing-small);
     text-decoration: none;
-}
-
-.grid-switcher button, .actions button {
-    margin: 0 5px;
-    padding: 10px 15px;
-    font-size: 14px;
-    font-family: 'Ubuntu', sans-serif;
-    border: 1px solid #545454;
-    border-radius: 4px;
-    background-color: #f0f0f0;
+    display: block;
+    width: 100%;
+    text-align: left;
+    border: none;
+    background: none;
     cursor: pointer;
 }
 
-.grid-switcher button:hover, .actions button:hover {
-    background-color: #e0e0e0;
+nav button {background-color: transparent; border: 0px;color: var(--color-nav-text)}
+
+.dropdown-content button:hover {
+    background-color: #ddd;
 }
 
-.grid-switcher button:active, .actions button:active {
-    background-color: #d0d0d0;
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropbtn {
+    margin: 0 var(--spacing-small);
+    padding: var(--spacing-small) var(--spacing-medium);
+    font-size: 14px;
+    font-family: 'Ubuntu', sans-serif;
+    border: 0px solid var(--color-button-border);
+    border-radius: 4px;
+    background-color: transparent;
+    cursor: pointer;
+    color: var(--color-nav-text);
 }
 
 #content-container {
@@ -69,12 +96,13 @@ nav {
     background: transparent;
 }
 
-#sidebar {
-    width: 348px;
-    padding: 1rem;
-    background: transparent;
+#left-sidebar, #right-sidebar {
+    width: 8.5vw;
+    padding: var(--spacing-large);
+    background: white;
     overflow-y: auto;
     border-right: #EEEEEE 2px solid;
+    justify-content:space-between;
 }
 
 #center-container {
@@ -84,17 +112,14 @@ nav {
     align-items: center;
     background: transparent;
     overflow: hidden;
-    
 }
 
 .component-container {
     background-color: transparent;
-    padding: 3rem;
+    padding: var(--spacing-large);
     display: block;
     flex-direction: column;
     align-items: center;
-
-
 }
 
 .canvas-container {
@@ -104,110 +129,64 @@ nav {
     align-items: center;
     max-width: 512px;
     width: 100%;
-    
-
-    
-    
 }
 
 canvas {
-    
     width: 100%;
     height: auto;
 }
 
-.button-container {
-    margin-top: 0px;
-}
-
-button {
-    font-size: 14px;
-    font-family: 'Ubuntu', sans-serif;
-    line-height: 1;
-    height: 32px;
-    margin-bottom: 12px;
-    border: 1px solid #545454;
-    border-radius: 4px;
-    background-color: #EEEEEE;
-}
-
 .click-area {
     position: absolute;
-    background-color: #000;
+    background-color: white;
+    border: 2px black solid;
     border-radius: 50%;
     cursor: pointer;
-    width: 32px;
-    height: 32px;
+    width: 1rem;
+    height: 1rem;
     margin-top: 3.95px;
-}
-
-.flex-container {
-    padding: 0;
-    margin: 0;
-    list-style: none;
-    display: flex;
-}
-
-.space-around {
-    justify-content: space-around;
-}
-
-.flex-item {
-    background: tomato;
-    padding: 5px;
-    width: 60px;
-    height: 50px;
-    margin: 5px;
-    line-height: 50px;
-    color: white;
-    font-weight: bold;
-    font-size: 2em;
-    text-align: center;
+    margin-left: 5px;
+   justify-content: space-between;
+   box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2), inset 1px 1px 1px rgba(255, 255, 255, 0.3), inset -1px -1px 1px rgba(0, 0, 0, 0.3);
+    transition: background-color 125ms;
 }
 
 .swatch {
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     display: inline-block;
     margin: 4px;
     cursor: pointer;
     border: 0px solid transparent;
-     border-radius: 50%;
+    border-radius: 50%;
 }
 
-.swatch.selected {
-    border-color: #000000;
+.theme-options .theme-row {
+    margin-bottom: var(--spacing-medium);
+    justify-content: space-around;
+    width: 100%;
+}
+
+.theme-options .theme-row h4 {
+    margin: 0 0 var(--spacing-small) 0;
 }
 
 .pattern-button {
-    padding: 0px;
-    background: #FFF;
-    cursor: pointer;
-    font-size: 0.9rem;
-    display: inline-block;
-    margin: 4px;
-    border: 2px solid transparent;
+    border: none;
+    padding-inline: none;
+    background-color: transparent;
+    margin: 0 0 var(--spacing-small) 0;
 }
 
 input[type="color"] {
-    appearance: auto;
-    width: 40px;
-    height: 40px;
-    cursor: default;
-    box-sizing: border-box;
-    background-color: buttonface;
-    color: buttonface;
-    border-width: 0px;
-    border-style: solid;
-    border-color: buttonborder;
-    padding: 1px 2px;
-    margin: 6px 16px;
+    width: 24px;
+    height: 24px;
+    margin: var(--spacing-medium);
     display: inline;
+    border-radius: 50%;
 }
 
-#pattern-export-bt {
-    margin-top: 2rem;
-}
+
 
 @media only screen and (max-width: 800px) {
     .canvas-container {
@@ -219,10 +198,11 @@ input[type="color"] {
     }
 
     #content-container {
-        flex-direction: column-reverse;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
-    #sidebar {
+    #left-sidebar, #right-sidebar {
         width: 100%;
     }
 

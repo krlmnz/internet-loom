@@ -21,22 +21,30 @@ const colorBrewerColors = {
     ]
 };
 
-const loadSwatches = (theme) => {
-    const swatchContainer = document.getElementById('swatchContainer');
-    swatchContainer.innerHTML = '';
-    colorBrewerColors[theme].forEach(color => {
-        const swatch = document.createElement('div');
-        swatch.className = 'swatch';
-        swatch.style.backgroundColor = color;
-        swatch.addEventListener('click', () => {
-            selectedColor = swatch.style.backgroundColor;
-            document.getElementById('colorPicker').value = rgbToHex(selectedColor);
+const loadSwatches = () => {
+    const swatchContainers = {
+        default: document.getElementById('default-swatches'),
+        dark: document.getElementById('dark-swatches'),
+        pastel: document.getElementById('pastel-swatches')
+    };
+
+    Object.keys(swatchContainers).forEach(themeKey => {
+        const container = swatchContainers[themeKey];
+        container.innerHTML = '';
+        colorBrewerColors[themeKey].forEach(color => {
+            const swatch = document.createElement('div');
+            swatch.className = 'swatch';
+            swatch.style.backgroundColor = color;
+            swatch.addEventListener('click', () => {
+                selectedColor = swatch.style.backgroundColor;
+                document.getElementById('colorPicker').value = rgbToHex(selectedColor);
+            });
+            container.appendChild(swatch);
         });
-        swatchContainer.appendChild(swatch);
     });
 };
 
-// Load default swatches initially
+// Load swatches initially for all themes
 document.addEventListener('DOMContentLoaded', () => {
-    loadSwatches('default');
+    loadSwatches();
 });
