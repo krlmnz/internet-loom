@@ -1,9 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter&family=Ubuntu:wght@400;700&display=swap');
+
 html, body {
     height: 100%;
     width: 100%;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
     background: #F4F4F3;
 }
 
@@ -11,6 +12,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-family: 'Ubuntu', sans-serif;
 }
 
 #main-container {
@@ -21,12 +23,20 @@ body {
 }
 
 nav {
-    padding: 1rem;
-    background: transparent;
+    padding: .5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-  background-color: orange;
+    background-color: #2D2D2D;
+    color: #fff;
+}
+
+.secondary-nav {
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffa500;
 }
 
 .nav-link {
@@ -34,7 +44,24 @@ nav {
     text-decoration: none;
 }
 
+.grid-switcher button, .actions button {
+    margin: 0 5px;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-family: 'Ubuntu', sans-serif;
+    border: 1px solid #545454;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
 
+.grid-switcher button:hover, .actions button:hover {
+    background-color: #e0e0e0;
+}
+
+.grid-switcher button:active, .actions button:active {
+    background-color: #d0d0d0;
+}
 
 #content-container {
     flex-grow: 1;
@@ -45,8 +72,9 @@ nav {
 #sidebar {
     width: 348px;
     padding: 1rem;
-    background: white;
+    background: transparent;
     overflow-y: auto;
+    border-right: #EEEEEE 2px solid;
 }
 
 #center-container {
@@ -56,14 +84,17 @@ nav {
     align-items: center;
     background: transparent;
     overflow: hidden;
+    
 }
 
 .component-container {
     background-color: transparent;
-    padding: 2rem;
-    display: flex;
+    padding: 3rem;
+    display: block;
     flex-direction: column;
     align-items: center;
+
+
 }
 
 .canvas-container {
@@ -71,14 +102,16 @@ nav {
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 0.3rem solid #000;
-    background-color: transparent;
     max-width: 512px;
     width: 100%;
+    
+
+    
+    
 }
 
 canvas {
-    border: 1px solid #000;
+    
     width: 100%;
     height: auto;
 }
@@ -88,20 +121,24 @@ canvas {
 }
 
 button {
-    margin: 0px;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: yellow;
+    font-size: 14px;
+    font-family: 'Ubuntu', sans-serif;
+    line-height: 1;
+    height: 32px;
+    margin-bottom: 12px;
+    border: 1px solid #545454;
+    border-radius: 4px;
+    background-color: #EEEEEE;
 }
 
 .click-area {
     position: absolute;
-    background-color: black;
+    background-color: #000;
     border-radius: 50%;
     cursor: pointer;
     width: 32px;
     height: 32px;
+    margin-top: 3.95px;
 }
 
 .flex-container {
@@ -129,16 +166,17 @@ button {
 }
 
 .swatch {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     display: inline-block;
     margin: 4px;
     cursor: pointer;
-    border: 2px solid transparent;
+    border: 0px solid transparent;
+     border-radius: 50%;
 }
 
 .swatch.selected {
-    border-color: #000;
+    border-color: #000000;
 }
 
 .pattern-button {
@@ -158,8 +196,8 @@ input[type="color"] {
     cursor: default;
     box-sizing: border-box;
     background-color: buttonface;
-    color: buttontext;
-    border-width: 1px;
+    color: buttonface;
+    border-width: 0px;
     border-style: solid;
     border-color: buttonborder;
     padding: 1px 2px;

@@ -5,26 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weaving Diagram Tool</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div id="main-container">
         <nav>
             <div class="title">Internet Loom</div>
             <div class="nav-links">
-              <div id="pattern-export-bt">
-                    <button onclick="exportSVG()">Export as SVG</button>
-                   
-                </div>
+                <a class="nav-link" href="https://github.com/chriswhong/responsive-web-map-layout" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </div>
+        </nav>
+        <nav class="secondary-nav">
+            <div class="grid-switcher">
+                <button onclick="initializeCanvas(8, 8)">8x8</button>
+                <button onclick="initializeCanvas(16, 16)">16x16</button>
+                <button onclick="initializeCanvas(18, 18)">18x18</button>
+            </div>
+            <div class="actions">
+                <button onclick="loadPattern()" title="Reload"><i class="fas fa-sync-alt"></i></button>
+                <button onclick="undo()" title="Undo"><i class="fas fa-undo-alt"></i></button>
+                <button onclick="redo()" title="Redo"><i class="fas fa-redo-alt"></i></button>
             </div>
         </nav>
         <div id="content-container">
             <div id="sidebar">
-               <div class="button-container">
-                        <button onclick="initializeCanvas(8, 8)">8x8</button>
-                        <button onclick="initializeCanvas(16, 16)">16x16</button>
-                        <button onclick="initializeCanvas(18, 18)">18x18</button>
-                    </div>
-                <h2>Themes</h2>
+                
                 <select id="themeSelector">
                     <option value="default">Default</option>
                     <option value="dark">Dark Theme</option>
@@ -33,35 +38,38 @@
                 <div class="swatches" id="swatchContainer"></div>
 
                 <div class="controls">
-                    <h3>Color Picker</h3>
+                  
                     <input type="color" id="colorPicker" value="#000000">
                 </div>
 
+                <h2>Patterns</h2>
                 <div id="pattern-buttons">
                     <button class="pattern-button" onclick="applyPattern(plainWeave)">
-                        <img src="https://weaverly.typepad.com/.a/6a00e54f8982ec8833013489b59ce2970c-320wi" width="40px"><br>Plain Weave
+                        <img src="./img/plain.svg" width="40px"><br>Plain
                     </button>
                     <button class="pattern-button" onclick="applyPattern(basketWeave)">
-                        <img src="https://weaverly.typepad.com/.a/6a00e54f8982ec8833013489b59ce2970c-320wi" width="40px"><br>Basket Weave
+                        <img src="./img/basket.svg" width="40px"><br>Basket
                     </button>
                     <button class="pattern-button" onclick="applyPattern(twillWeave)">
-                        <img src="https://weaverly.typepad.com/.a/6a00e54f8982ec8833013489b59ce2970c-320wi" width="40px"><br>Twill Weave
+                        <img src="./img/satin.svg" width="40px"><br>Twill
                     </button>
                     <button class="pattern-button" onclick="applyPattern(satinWeave)">
-                        <img src="https://weaverly.typepad.com/.a/6a00e54f8982ec8833013489b59ce2970c-320wi" width="40px"><br>Satin Weave
+                        <img src="./img/twill.svg" width="40px"><br>Satin
                     </button>
                     <button class="pattern-button" onclick="applyPattern(honeycombWeave)">
-                        <img src="https://weaverly.typepad.com/.a/6a00e54f8982ec8833013489b59ce2970c-320wi" width="40px"><br>Honeycomb
+                        <img src="./img/satin.svg" width="40px"><br>Untitled
                     </button>
                     <button class="pattern-button" onclick="applyPattern(huckabackWeave)">
-                        <img src="https://weaverly.typepad.com/.a/6a00e54f8982ec8833013489b59ce2970c-320wi" width="40px"><br>Huck-a-back
+                        <img src="./img/satin.svg" width="40px"><br>Untitled
                     </button>
                     <button class="pattern-button" onclick="applyPattern(mockLenoWeave)">
-                        <img src="https://weaverly.typepad.com/.a/6a00e54f8982ec8833013489b59ce2970c-320wi" width="40px"><br>Mock Leno
+                        <img src="./img/satin.svg" width="40px"><br>Untitled
                     </button>
                 </div>
 
-                
+                <div id="pattern-export-bt">
+                    <button onclick="exportSVG()">Export as SVG</button>
+                </div>
             </div>
 
             <div id="center-container">
@@ -69,11 +77,13 @@
                     <div class="canvas-container" id="canvasContainer">
                         <canvas id="weavingCanvas"></canvas>
                     </div>
-                   
                 </div>
             </div>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="canvas.js"></script>
+    <script src="patterns.js"></script>
+    <script src="events.js"></script>
+    <script src="utils.js"></script>
 </body>
 </html>
