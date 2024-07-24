@@ -1,3 +1,73 @@
-<svg width="512" height="512" xmlns="http://www.w3.org/2000/svg">
-            <rect x="0" y="0" width="64" height="64" fill="#000000" /><rect x="64" y="0" width="64" height="64" fill="#000000" /><rect x="128" y="0" width="64" height="64" fill="#000000" /><rect x="192" y="0" width="64" height="64" fill="#000000" /><rect x="256" y="0" width="64" height="64" fill="white" /><rect x="320" y="0" width="64" height="64" fill="white" /><rect x="384" y="0" width="64" height="64" fill="white" /><rect x="448" y="0" width="64" height="64" fill="white" /><rect x="0" y="64" width="64" height="64" fill="#000000" /><rect x="64" y="64" width="64" height="64" fill="#000000" /><rect x="128" y="64" width="64" height="64" fill="#000000" /><rect x="192" y="64" width="64" height="64" fill="white" /><rect x="256" y="64" width="64" height="64" fill="white" /><rect x="320" y="64" width="64" height="64" fill="white" /><rect x="384" y="64" width="64" height="64" fill="white" /><rect x="448" y="64" width="64" height="64" fill="#000000" /><rect x="0" y="128" width="64" height="64" fill="#000000" /><rect x="64" y="128" width="64" height="64" fill="#000000" /><rect x="128" y="128" width="64" height="64" fill="white" /><rect x="192" y="128" width="64" height="64" fill="white" /><rect x="256" y="128" width="64" height="64" fill="white" /><rect x="320" y="128" width="64" height="64" fill="white" /><rect x="384" y="128" width="64" height="64" fill="#000000" /><rect x="448" y="128" width="64" height="64" fill="#000000" /><rect x="0" y="192" width="64" height="64" fill="#000000" /><rect x="64" y="192" width="64" height="64" fill="white" /><rect x="128" y="192" width="64" height="64" fill="white" /><rect x="192" y="192" width="64" height="64" fill="white" /><rect x="256" y="192" width="64" height="64" fill="white" /><rect x="320" y="192" width="64" height="64" fill="#000000" /><rect x="384" y="192" width="64" height="64" fill="#000000" /><rect x="448" y="192" width="64" height="64" fill="#000000" /><rect x="0" y="256" width="64" height="64" fill="white" /><rect x="64" y="256" width="64" height="64" fill="white" /><rect x="128" y="256" width="64" height="64" fill="white" /><rect x="192" y="256" width="64" height="64" fill="white" /><rect x="256" y="256" width="64" height="64" fill="#000000" /><rect x="320" y="256" width="64" height="64" fill="#000000" /><rect x="384" y="256" width="64" height="64" fill="#000000" /><rect x="448" y="256" width="64" height="64" fill="#000000" /><rect x="0" y="320" width="64" height="64" fill="white" /><rect x="64" y="320" width="64" height="64" fill="white" /><rect x="128" y="320" width="64" height="64" fill="white" /><rect x="192" y="320" width="64" height="64" fill="#000000" /><rect x="256" y="320" width="64" height="64" fill="#000000" /><rect x="320" y="320" width="64" height="64" fill="#000000" /><rect x="384" y="320" width="64" height="64" fill="#000000" /><rect x="448" y="320" width="64" height="64" fill="white" /><rect x="0" y="384" width="64" height="64" fill="white" /><rect x="64" y="384" width="64" height="64" fill="white" /><rect x="128" y="384" width="64" height="64" fill="#000000" /><rect x="192" y="384" width="64" height="64" fill="#000000" /><rect x="256" y="384" width="64" height="64" fill="#000000" /><rect x="320" y="384" width="64" height="64" fill="#000000" /><rect x="384" y="384" width="64" height="64" fill="white" /><rect x="448" y="384" width="64" height="64" fill="white" /><rect x="0" y="448" width="64" height="64" fill="white" /><rect x="64" y="448" width="64" height="64" fill="#000000" /><rect x="128" y="448" width="64" height="64" fill="#000000" /><rect x="192" y="448" width="64" height="64" fill="#000000" /><rect x="256" y="448" width="64" height="64" fill="#000000" /><rect x="320" y="448" width="64" height="64" fill="white" /><rect x="384" y="448" width="64" height="64" fill="white" /><rect x="448" y="448" width="64" height="64" fill="white" />
-        </svg>
+<svg width="320" height="320" viewBox="0 0 320 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_95_36479)">
+<path d="M40 0H0V40H40V0Z" fill="black"/>
+<path d="M80 0H40V40H80V0Z" fill="black"/>
+<path d="M120 0H80V40H120V0Z" fill="black"/>
+<path d="M160 0H120V40H160V0Z" fill="black"/>
+<path d="M200 0H160V40H200V0Z" fill="white"/>
+<path d="M240 0H200V40H240V0Z" fill="white"/>
+<path d="M280 0H240V40H280V0Z" fill="white"/>
+<path d="M320 0H280V40H320V0Z" fill="white"/>
+<path d="M40 40H0V80H40V40Z" fill="black"/>
+<path d="M80 40H40V80H80V40Z" fill="black"/>
+<path d="M120 40H80V80H120V40Z" fill="black"/>
+<path d="M160 40H120V80H160V40Z" fill="white"/>
+<path d="M200 40H160V80H200V40Z" fill="white"/>
+<path d="M240 40H200V80H240V40Z" fill="white"/>
+<path d="M280 40H240V80H280V40Z" fill="white"/>
+<path d="M320 40H280V80H320V40Z" fill="black"/>
+<path d="M40 80H0V120H40V80Z" fill="black"/>
+<path d="M80 80H40V120H80V80Z" fill="black"/>
+<path d="M120 80H80V120H120V80Z" fill="white"/>
+<path d="M160 80H120V120H160V80Z" fill="white"/>
+<path d="M200 80H160V120H200V80Z" fill="white"/>
+<path d="M240 80H200V120H240V80Z" fill="white"/>
+<path d="M280 80H240V120H280V80Z" fill="black"/>
+<path d="M320 80H280V120H320V80Z" fill="black"/>
+<path d="M40 120H0V160H40V120Z" fill="black"/>
+<path d="M80 120H40V160H80V120Z" fill="white"/>
+<path d="M120 120H80V160H120V120Z" fill="white"/>
+<path d="M160 120H120V160H160V120Z" fill="white"/>
+<path d="M200 120H160V160H200V120Z" fill="white"/>
+<path d="M240 120H200V160H240V120Z" fill="black"/>
+<path d="M280 120H240V160H280V120Z" fill="black"/>
+<path d="M320 120H280V160H320V120Z" fill="black"/>
+<path d="M40 160H0V200H40V160Z" fill="white"/>
+<path d="M80 160H40V200H80V160Z" fill="white"/>
+<path d="M120 160H80V200H120V160Z" fill="white"/>
+<path d="M160 160H120V200H160V160Z" fill="white"/>
+<path d="M200 160H160V200H200V160Z" fill="black"/>
+<path d="M240 160H200V200H240V160Z" fill="black"/>
+<path d="M280 160H240V200H280V160Z" fill="black"/>
+<path d="M320 160H280V200H320V160Z" fill="black"/>
+<path d="M40 200H0V240H40V200Z" fill="white"/>
+<path d="M80 200H40V240H80V200Z" fill="white"/>
+<path d="M120 200H80V240H120V200Z" fill="white"/>
+<path d="M160 200H120V240H160V200Z" fill="black"/>
+<path d="M200 200H160V240H200V200Z" fill="black"/>
+<path d="M240 200H200V240H240V200Z" fill="black"/>
+<path d="M280 200H240V240H280V200Z" fill="black"/>
+<path d="M320 200H280V240H320V200Z" fill="white"/>
+<path d="M40 240H0V280H40V240Z" fill="white"/>
+<path d="M80 240H40V280H80V240Z" fill="white"/>
+<path d="M120 240H80V280H120V240Z" fill="black"/>
+<path d="M160 240H120V280H160V240Z" fill="black"/>
+<path d="M200 240H160V280H200V240Z" fill="black"/>
+<path d="M240 240H200V280H240V240Z" fill="black"/>
+<path d="M280 240H240V280H280V240Z" fill="white"/>
+<path d="M320 240H280V280H320V240Z" fill="white"/>
+<path d="M40 280H0V320H40V280Z" fill="white"/>
+<path d="M80 280H40V320H80V280Z" fill="black"/>
+<path d="M120 280H80V320H120V280Z" fill="black"/>
+<path d="M160 280H120V320H160V280Z" fill="black"/>
+<path d="M200 280H160V320H200V280Z" fill="black"/>
+<path d="M240 280H200V320H240V280Z" fill="white"/>
+<path d="M280 280H240V320H280V280Z" fill="white"/>
+<path d="M320 280H280V320H320V280Z" fill="white"/>
+</g>
+<defs>
+<clipPath id="clip0_95_36479">
+<rect width="320" height="320" fill="white"/>
+</clipPath>
+</defs>
+</svg>
