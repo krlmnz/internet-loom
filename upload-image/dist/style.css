@@ -1,0 +1,258 @@
+:root {
+    --spacing-small: 8px;
+    --spacing-medium: 16px;
+    --spacing-large: 24px;
+    --color-bg: #F4F4F3;
+    --color-nav-bg: #2D2D2D;
+    --color-nav-text: #FFFFFF;
+    --color-button-bg: #EEEEEE;
+    --color-button-border: #545454;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: var(--color-bg);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+#main-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    max-width: 1040px;
+}
+
+#content-container {
+    flex-grow: 1;
+    display: flex;
+    background: transparent;
+    overflow: hidden;
+    justify-items: space-around;
+    border: 3px solid #000000;
+}
+
+#left-sidebar {
+    padding: var(--spacing-small);
+    background-color: #fff;
+    overflow: scroll;
+    border-right: #EEEEEE 2px solid;
+    align-items: top;
+    min-height: 3rem;
+    width: auto;
+   
+    height: 100%;
+    border: 3px black solid;
+}
+
+#center-container {
+    background: transparent;
+    display: block;
+    padding: 4vw;
+}
+
+.canvas-container {
+    position: relative;
+    display: block;
+}
+
+.click-area {
+    position: absolute;
+    background-color: white;
+    border: 2px black solid;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 1rem;
+    height: 1rem;
+    margin-top: 6px;
+    margin-left: 5px;
+    justify-content: space-between;
+    box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2), inset 1px 1px 1px rgba(255, 255, 255, 0.3), inset -1px -1px 1px rgba(0, 0, 0, 0.3);
+    transition: background-color 125ms;
+}
+
+.swatch, .pattern-button {
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 0px;
+    transition: transform 0.2s;
+    border: 1px solid #000000;
+}
+
+.pattern-button {
+    margin: 8px 8px;
+    border: 3px black solid;
+}
+
+.swatch:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+@media only screen and (max-width: 800px) {
+    #main-container {
+        width: 100%;
+        margin: 0px;
+    }
+
+    #content-container {
+        flex-direction: column;
+        width: 100%;
+        margin: 0px;
+    }
+
+    #left-sidebar, #right-sidebar {
+        overflow: scroll;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        margin: 0px;
+        height: auto;
+    }
+
+    #pattern-buttons {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 0px;
+        width: 100%;
+    }
+}
+
+.utility-nav-bar-container {
+    width: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+}
+
+.utility-nav-bar {
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+}
+
+#reload-button {
+    padding: 16px;
+    font-size: 1rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #000;
+}
+
+#reload-button i {
+    color: #fff;
+    transition: color 0.2s;
+}
+
+#reload-button:hover i {
+    color: #eee;
+}
+
+#color-swatches {
+    display: flex;
+    overflow-x: auto;
+    padding: 0rem;
+    border: 1px solid #000000;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: #eb0b8e;
+}
+
+.outer-container {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: space-between;
+    background-color: #f4d34f;
+}
+
+.inner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #7beb0b;
+}
+
+.lock-button {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 10px;
+    border-radius: 50%;
+    transition: background-color 0.2s;
+    width: 20px;
+    height: 20px;
+}
+
+.lock-button.locked {
+    color: #000;
+}
+
+.lock-button.unlocked {
+    color: #00000066;
+}
+
+.lock-button:hover {
+    background-color: rgba(255, 255, 255, 1);
+}
+
+.bottom-layout {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    justify-content: flex-end;
+}
+
+.bottom-layout .utility-nav-bar-container {
+    order: 1;
+}
+
+.bottom-layout #color-swatches {
+    order: 0;
+}
+
+.grid-container {
+    width: 100%;
+    max-width: 512px;
+    height: 100%;
+    max-height: 512px;
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    grid-template-rows: repeat(16, 1fr);
+    gap: 1px;
+}
+
+.grid-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+@media (max-width: 800px) {
+    .grid-container {
+        grid-template-columns: repeat(8, 1fr);
+        grid-template-rows: repeat(8, 1fr);
+    }
+
+    .grid-item {
+        min-width: 32px;
+        min-height: 32px;
+    }
+}

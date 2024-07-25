@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - A Pen by Karol Munoz</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weaving Diagram Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="main-container">
+        <!-- Top Bar -->
+        <div class="utility-nav-bar-container">
+            <div class="utility-nav-bar">
+                <button id="reload-button"><i class="fas fa-sync-alt"></i></button>
+                <input type="file" id="imageUpload" accept="image/*">
+                <input type="range" id="contrastRange" min="0" max="200" value="100">
+            </div>
+        </div>
+
+        <!-- Content Container -->
+        <div id="content-container">
+            <!-- Left Sidebar -->
+            <div id="left-sidebar">
+                <div id="pattern-buttons">
+                    <button class="pattern-button" onclick="applyPattern(plainWeave)">Plain Weave</button>
+                    <button class="pattern-button" onclick="applyPattern(basketWeave)">Basket Weave</button>
+                    <button class="pattern-button" onclick="applyPattern(twillWeave)">Twill Weave</button>
+                    <button class="pattern-button" onclick="applyPattern(satinWeave)">Satin Weave</button>
+                    <button class="pattern-button" onclick="applyPattern(honeycombWeave)">Honeycomb Weave</button>
+                    <button class="pattern-button" onclick="applyPattern(huckabackWeave)">Huckaback Weave</button>
+                    <button class="pattern-button" onclick="applyPattern(mockLenoWeave)">Mock Leno Weave</button>
+                    <button class="pattern-button" onclick="applyPattern(mapuchePattern)">Mapuche Pattern</button>
+                    <button class="pattern-button" onclick="applyPattern(incaPattern)">Inca Pattern</button>
+                    <button class="pattern-button" onclick="applyPattern(aztecPattern)">Aztec Pattern</button>
+                    <button class="pattern-button" onclick="applyPattern(diamondPattern)">Diamond Pattern</button>
+                    <button class="pattern-button" onclick="applyPattern(zigzagPattern)">Zigzag Pattern</button>
+                    <button class="pattern-button" onclick="applyPattern(crossPattern)">Cross Pattern</button>
+                </div>
+            </div>
+
+            <!-- Center Container -->
+            <div id="center-container">
+                <div class="canvas-container" id="canvasContainer">
+                    <canvas id="weavingCanvas"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="bottom-layout">
+            <div id="color-swatches">
+                <div class="outer-container" id="outer-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <script></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>
