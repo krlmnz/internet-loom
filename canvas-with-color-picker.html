@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+  
+        .outer-container {
+            background: white;
+            padding: 2rem;
+            width: 576px;
+            height: 576px;
+            border: 2px black solid;
+            position: absolute;
+            border-radius: 8px;
+        }
+
+        .container {
+            width: 576px;
+            height: 576px;
+            background: white;
+            position: absolute;
+        }
+
+        .row {
+            display: flex;
+        }
+
+        .column {
+            height: 512px;
+            width: 32px;
+            gap: 0px;
+            display: inline-block;
+        }
+
+        .box {
+            width: 32px;
+            height: 32px;
+            background: #F5F3AF;
+            display: inline-block;
+        }
+
+        .fixed-row {
+            width: 512px;
+            height: 32px;
+            display: flex;
+        }
+
+        .circle-box {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .circle {
+            width: 16px;
+            height: 16px;
+            background: black;
+            border-radius: 50%;
+            border: 2px solid #0A0D16;
+            cursor: pointer;
+        }
+
+        .circle-wrapper {
+            height: 32px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .grid {
+            width: 512px;
+            display: grid;
+            grid-template-columns: repeat(16, 32px);
+            grid-template-rows: repeat(16, 32px);
+            gap: 0px;
+        }
+
+        .grid-box {
+            width: 32px;
+            height: 32px;
+            background: white;
+            border: 1px solid #DCDCDC;
+            display: inline-block;
+        }
+
+        #colorPicker {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <input type="color" id="colorPicker" value="#000000">
+
+    <div class="outer-container">
+        <div class="controls">
+            <div class="control-group">
+              <label for="hue"><i class="fa-solid fa-palette"></i> Hue:</label>
+              <select id="hue">
+                <option value="all">All</option>
+                <option value="warm">Warm Colors</option>
+                <option value="cool">Cool Colors</option>
+                <option value="neutral">Neutrals</option>
+              </select>
+        
+              <label for="saturation"><i class="fa-solid fa-fill-drip"></i> Saturation:</label>
+              <select id="saturation">
+                <option value="all">All</option>
+                <option value="brights">Brights</option>
+                <option value="muted">Muted</option>
+                <option value="desaturated">Desaturated</option>
+              </select>
+        
+              <label for="lightness"><i class="fa-solid fa-adjust"></i> Lightness:</label>
+              <select id="lightness">
+                <option value="all">All</option>
+                <option value="light">Light</option>
+                <option value="medium">Medium</option>
+                <option value="dark">Dark</option>
+              </select>
+        
+              <button id="reload-button"><i class="fas fa-sync-alt"></i> Reload</button>
+            </div>
+          </div>
+        
+          <div id="color-swatches"></div>
+
+    </div>
+
+
+    <div class="outer-container">
+
+        
+        <div class="container">
+            <div class="row">
+                <div class="box"></div>
+                <div class="fixed-row">
+                    <div class="circle-box"><div class="circle" id="A"></div></div>
+                    <div class="circle-box"><div class="circle" id="B"></div></div>
+                    <div class="circle-box"><div class="circle" id="C"></div></div>
+                    <div class="circle-box"><div class="circle" id="D"></div></div>
+                    <div class="circle-box"><div class="circle" id="E"></div></div>
+                    <div class="circle-box"><div class="circle" id="F"></div></div>
+                    <div class="circle-box"><div class="circle" id="G"></div></div>
+                    <div class="circle-box"><div class="circle" id="H"></div></div>
+                    <div class="circle-box"><div class="circle" id="I"></div></div>
+                    <div class="circle-box"><div class="circle" id="J"></div></div>
+                    <div class="circle-box"><div class="circle" id="K"></div></div>
+                    <div class="circle-box"><div class="circle" id="L"></div></div>
+                    <div class="circle-box"><div class="circle" id="M"></div></div>
+                    <div class="circle-box"><div class="circle" id="N"></div></div>
+                    <div class="circle-box"><div class="circle" id="O"></div></div>
+                    <div class="circle-box"><div class="circle" id="P"></div></div>
+                </div>
+                <div class="box"></div>
+            </div>
+            <div class="row">
+                <div class="column" style="left: 0;">
+                    <div class="circle-wrapper"><div class="circle" id="1"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="2"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="3"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="4"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="5"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="6"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="7"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="8"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="9"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="10"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="11"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="12"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="13"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="14"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="15"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="16"></div></div>
+                </div>
+                <div class="grid">
+                    <div class="grid-box" id="A1"></div>
+                    <div class="grid-box" id="B1"></div>
+                    <div class="grid-box" id="C1"></div>
+                    <div class="grid-box" id="D1"></div>
+                    <div class="grid-box" id="E1"></div>
+                    <div class="grid-box" id="F1"></div>
+                    <div class="grid-box" id="G1"></div>
+                    <div class="grid-box" id="H1"></div>
+                    <div class="grid-box" id="I1"></div>
+                    <div class="grid-box" id="J1"></div>
+                    <div class="grid-box" id="K1"></div>
+                    <div class="grid-box" id="L1"></div>
+                    <div class="grid-box" id="M1"></div>
+                    <div class="grid-box" id="N1"></div>
+                    <div class="grid-box" id="O1"></div>
+                    <div class="grid-box" id="P1"></div>
+
+                    <div class="grid-box" id="A2"></div>
+                    <div class="grid-box" id="B2"></div>
+                    <div class="grid-box" id="C2"></div>
+                    <div class="grid-box" id="D2"></div>
+                    <div class="grid-box" id="E2"></div>
+                    <div class="grid-box" id="F2"></div>
+                    <div class="grid-box" id="G2"></div>
+                    <div class="grid-box" id="H2"></div>
+                    <div class="grid-box" id="I2"></div>
+                    <div class="grid-box" id="J2"></div>
+                    <div class="grid-box" id="K2"></div>
+                    <div class="grid-box" id="L2"></div>
+                    <div class="grid-box" id="M2"></div>
+                    <div class="grid-box" id="N2"></div>
+                    <div class="grid-box" id="O2"></div>
+                    <div class="grid-box" id="P2"></div>
+
+                    <div class="grid-box" id="A3"></div>
+                    <div class="grid-box" id="B3"></div>
+                    <div class="grid-box" id="C3"></div>
+                    <div class="grid-box" id="D3"></div>
+                    <div class="grid-box" id="E3"></div>
+                    <div class="grid-box" id="F3"></div>
+                    <div class="grid-box" id="G3"></div>
+                    <div class="grid-box" id="H3"></div>
+                    <div class="grid-box" id="I3"></div>
+                    <div class="grid-box" id="J3"></div>
+                    <div class="grid-box" id="K3"></div>
+                    <div class="grid-box" id="L3"></div>
+                    <div class="grid-box" id="M3"></div>
+                    <div class="grid-box" id="N3"></div>
+                    <div class="grid-box" id="O3"></div>
+                    <div class="grid-box" id="P3"></div>
+
+                    <div class="grid-box" id="A4"></div>
+                    <div class="grid-box" id="B4"></div>
+                    <div class="grid-box" id="C4"></div>
+                    <div class="grid-box" id="D4"></div>
+                    <div class="grid-box" id="E4"></div>
+                    <div class="grid-box" id="F4"></div>
+                    <div class="grid-box" id="G4"></div>
+                    <div class="grid-box" id="H4"></div>
+                    <div class="grid-box" id="I4"></div>
+                    <div class="grid-box" id="J4"></div>
+                    <div class="grid-box" id="K4"></div>
+                    <div class="grid-box" id="L4"></div>
+                    <div class="grid-box" id="M4"></div>
+                    <div class="grid-box" id="N4"></div>
+                    <div class="grid-box" id="O4"></div>
+                    <div class="grid-box" id="P4"></div>
+
+                    <div class="grid-box" id="A5"></div>
+                    <div class="grid-box" id="B5"></div>
+                    <div class="grid-box" id="C5"></div>
+                    <div class="grid-box" id="D5"></div>
+                    <div class="grid-box" id="E5"></div>
+                    <div class="grid-box" id="F5"></div>
+                    <div class="grid-box" id="G5"></div>
+                    <div class="grid-box" id="H5"></div>
+                    <div class="grid-box" id="I5"></div>
+                    <div class="grid-box" id="J5"></div>
+                    <div class="grid-box" id="K5"></div>
+                    <div class="grid-box" id="L5"></div>
+                    <div class="grid-box" id="M5"></div>
+                    <div class="grid-box" id="N5"></div>
+                    <div class="grid-box" id="O5"></div>
+                    <div class="grid-box" id="P5"></div>
+
+                    <div class="grid-box" id="A6"></div>
+                    <div class="grid-box" id="B6"></div>
+                    <div class="grid-box" id="C6"></div>
+                    <div class="grid-box" id="D6"></div>
+                    <div class="grid-box" id="E6"></div>
+                    <div class="grid-box" id="F6"></div>
+                    <div class="grid-box" id="G6"></div>
+                    <div class="grid-box" id="H6"></div>
+                    <div class="grid-box" id="I6"></div>
+                    <div class="grid-box" id="J6"></div>
+                    <div class="grid-box" id="K6"></div>
+                    <div class="grid-box" id="L6"></div>
+                    <div class="grid-box" id="M6"></div>
+                    <div class="grid-box" id="N6"></div>
+                    <div class="grid-box" id="O6"></div>
+                    <div class="grid-box" id="P6"></div>
+
+                    <div class="grid-box" id="A7"></div>
+                    <div class="grid-box" id="B7"></div>
+                    <div class="grid-box" id="C7"></div>
+                    <div class="grid-box" id="D7"></div>
+                    <div class="grid-box" id="E7"></div>
+                    <div class="grid-box" id="F7"></div>
+                    <div class="grid-box" id="G7"></div>
+                    <div class="grid-box" id="H7"></div>
+                    <div class="grid-box" id="I7"></div>
+                    <div class="grid-box" id="J7"></div>
+                    <div class="grid-box" id="K7"></div>
+                    <div class="grid-box" id="L7"></div>
+                    <div class="grid-box" id="M7"></div>
+                    <div class="grid-box" id="N7"></div>
+                    <div class="grid-box" id="O7"></div>
+                    <div class="grid-box" id="P7"></div>
+
+                    <div class="grid-box" id="A8"></div>
+                    <div class="grid-box" id="B8"></div>
+                    <div class="grid-box" id="C8"></div>
+                    <div class="grid-box" id="D8"></div>
+                    <div class="grid-box" id="E8"></div>
+                    <div class="grid-box" id="F8"></div>
+                    <div class="grid-box" id="G8"></div>
+                    <div class="grid-box" id="H8"></div>
+                    <div class="grid-box" id="I8"></div>
+                    <div class="grid-box" id="J8"></div>
+                    <div class="grid-box" id="K8"></div>
+                    <div class="grid-box" id="L8"></div>
+                    <div class="grid-box" id="M8"></div>
+                    <div class="grid-box" id="N8"></div>
+                    <div class="grid-box" id="O8"></div>
+                    <div class="grid-box" id="P8"></div>
+
+                    <div class="grid-box" id="A9"></div>
+                    <div class="grid-box" id="B9"></div>
+                    <div class="grid-box" id="C9"></div>
+                    <div class="grid-box" id="D9"></div>
+                    <div class="grid-box" id="E9"></div>
+                    <div class="grid-box" id="F9"></div>
+                    <div class="grid-box" id="G9"></div>
+                    <div class="grid-box" id="H9"></div>
+                    <div class="grid-box" id="I9"></div>
+                    <div class="grid-box" id="J9"></div>
+                    <div class="grid-box" id="K9"></div>
+                    <div class="grid-box" id="L9"></div>
+                    <div class="grid-box" id="M9"></div>
+                    <div class="grid-box" id="N9"></div>
+                    <div class="grid-box" id="O9"></div>
+                    <div class="grid-box" id="P9"></div>
+
+                    <div class="grid-box" id="A10"></div>
+                    <div class="grid-box" id="B10"></div>
+                    <div class="grid-box" id="C10"></div>
+                    <div class="grid-box" id="D10"></div>
+                    <div class="grid-box" id="E10"></div>
+                    <div class="grid-box" id="F10"></div>
+                    <div class="grid-box" id="G10"></div>
+                    <div class="grid-box" id="H10"></div>
+                    <div class="grid-box" id="I10"></div>
+                    <div class="grid-box" id="J10"></div>
+                    <div class="grid-box" id="K10"></div>
+                    <div class="grid-box" id="L10"></div>
+                    <div class="grid-box" id="M10"></div>
+                    <div class="grid-box" id="N10"></div>
+                    <div class="grid-box" id="O10"></div>
+                    <div class="grid-box" id="P10"></div>
+
+                    <div class="grid-box" id="A11"></div>
+                    <div class="grid-box" id="B11"></div>
+                    <div class="grid-box" id="C11"></div>
+                    <div class="grid-box" id="D11"></div>
+                    <div class="grid-box" id="E11"></div>
+                    <div class="grid-box" id="F11"></div>
+                    <div class="grid-box" id="G11"></div>
+                    <div class="grid-box" id="H11"></div>
+                    <div class="grid-box" id="I11"></div>
+                    <div class="grid-box" id="J11"></div>
+                    <div class="grid-box" id="K11"></div>
+                    <div class="grid-box" id="L11"></div>
+                    <div class="grid-box" id="M11"></div>
+                    <div class="grid-box" id="N11"></div>
+                    <div class="grid-box" id="O11"></div>
+                    <div class="grid-box" id="P11"></div>
+
+                    <div class="grid-box" id="A12"></div>
+                    <div class="grid-box" id="B12"></div>
+                    <div class="grid-box" id="C12"></div>
+                    <div class="grid-box" id="D12"></div>
+                    <div class="grid-box" id="E12"></div>
+                    <div class="grid-box" id="F12"></div>
+                    <div class="grid-box" id="G12"></div>
+                    <div class="grid-box" id="H12"></div>
+                    <div class="grid-box" id="I12"></div>
+                    <div class="grid-box" id="J12"></div>
+                    <div class="grid-box" id="K12"></div>
+                    <div class="grid-box" id="L12"></div>
+                    <div class="grid-box" id="M12"></div>
+                    <div class="grid-box" id="N12"></div>
+                    <div class="grid-box" id="O12"></div>
+                    <div class="grid-box" id="P12"></div>
+
+                    <div class="grid-box" id="A13"></div>
+                    <div class="grid-box" id="B13"></div>
+                    <div class="grid-box" id="C13"></div>
+                    <div class="grid-box" id="D13"></div>
+                    <div class="grid-box" id="E13"></div>
+                    <div class="grid-box" id="F13"></div>
+                    <div class="grid-box" id="G13"></div>
+                    <div class="grid-box" id="H13"></div>
+                    <div class="grid-box" id="I13"></div>
+                    <div class="grid-box" id="J13"></div>
+                    <div class="grid-box" id="K13"></div>
+                    <div class="grid-box" id="L13"></div>
+                    <div class="grid-box" id="M13"></div>
+                    <div class="grid-box" id="N13"></div>
+                    <div class="grid-box" id="O13"></div>
+                    <div class="grid-box" id="P13"></div>
+
+                    <div class="grid-box" id="A14"></div>
+                    <div class="grid-box" id="B14"></div>
+                    <div class="grid-box" id="C14"></div>
+                    <div class="grid-box" id="D14"></div>
+                    <div class="grid-box" id="E14"></div>
+                    <div class="grid-box" id="F14"></div>
+                    <div class="grid-box" id="G14"></div>
+                    <div class="grid-box" id="H14"></div>
+                    <div class="grid-box" id="I14"></div>
+                    <div class="grid-box" id="J14"></div>
+                    <div class="grid-box" id="K14"></div>
+                    <div class="grid-box" id="L14"></div>
+                    <div class="grid-box" id="M14"></div>
+                    <div class="grid-box" id="N14"></div>
+                    <div class="grid-box" id="O14"></div>
+                    <div class="grid-box" id="P14"></div>
+
+                    <div class="grid-box" id="A15"></div>
+                    <div class="grid-box" id="B15"></div>
+                    <div class="grid-box" id="C15"></div>
+                    <div class="grid-box" id="D15"></div>
+                    <div class="grid-box" id="E15"></div>
+                    <div class="grid-box" id="F15"></div>
+                    <div class="grid-box" id="G15"></div>
+                    <div class="grid-box" id="H15"></div>
+                    <div class="grid-box" id="I15"></div>
+                    <div class="grid-box" id="J15"></div>
+                    <div class="grid-box" id="K15"></div>
+                    <div class="grid-box" id="L15"></div>
+                    <div class="grid-box" id="M15"></div>
+                    <div class="grid-box" id="N15"></div>
+                    <div class="grid-box" id="O15"></div>
+                    <div class="grid-box" id="P15"></div>
+
+                    <div class="grid-box" id="A16"></div>
+                    <div class="grid-box" id="B16"></div>
+                    <div class="grid-box" id="C16"></div>
+                    <div class="grid-box" id="D16"></div>
+                    <div class="grid-box" id="E16"></div>
+                    <div class="grid-box" id="F16"></div>
+                    <div class="grid-box" id="G16"></div>
+                    <div class="grid-box" id="H16"></div>
+                    <div class="grid-box" id="I16"></div>
+                    <div class="grid-box" id="J16"></div>
+                    <div class="grid-box" id="K16"></div>
+                    <div class="grid-box" id="L16"></div>
+                    <div class="grid-box" id="M16"></div>
+                    <div class="grid-box" id="N16"></div>
+                    <div class="grid-box" id="O16"></div>
+                    <div class="grid-box" id="P16"></div>
+                </div>
+                <div class="column" style="right: 0;">
+                    <div class="circle-wrapper"><div class="circle" id="1"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="2"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="3"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="4"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="5"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="6"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="7"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="8"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="9"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="10"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="11"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="12"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="13"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="14"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="15"></div></div>
+                    <div class="circle-wrapper"><div class="circle" id="16"></div></div>
+                </div>
+            </div>
+            <div class="row" style="position: absolute; bottom: 0;">
+                <div class="box"></div>
+                <div class="fixed-row">
+                    <div class="circle-box"><div class="circle" id="A"></div></div>
+                    <div class="circle-box"><div class="circle" id="B"></div></div>
+                    <div class="circle-box"><div class="circle" id="C"></div></div>
+                    <div class="circle-box"><div class="circle" id="D"></div></div>
+                    <div class="circle-box"><div class="circle" id="E"></div></div>
+                    <div class="circle-box"><div class="circle" id="F"></div></div>
+                    <div class="circle-box"><div class="circle" id="G"></div></div>
+                    <div class="circle-box"><div class="circle" id="H"></div></div>
+                    <div class="circle-box"><div class="circle" id="I"></div></div>
+                    <div class="circle-box"><div class="circle" id="J"></div></div>
+                    <div class="circle-box"><div class="circle" id="K"></div></div>
+                    <div class="circle-box"><div class="circle" id="L"></div></div>
+                    <div class="circle-box"><div class="circle" id="M"></div></div>
+                    <div class="circle-box"><div class="circle" id="N"></div></div>
+                    <div class="circle-box"><div class="circle" id="O"></div></div>
+                    <div class="circle-box"><div class="circle" id="P"></div></div>
+                </div>
+                <div class="box"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+   let selectedColor = "#000000";
+
+document.getElementById("colorPicker").addEventListener("change", function(event) {
+    selectedColor = event.target.value;
+});
+
+document.querySelectorAll(".circle").forEach(circle => {
+    circle.addEventListener("click", function(event) {
+        const id = event.target.id;
+
+        if (isNaN(id)) { // Column click
+            for (let i = 1; i <= 16; i++) {
+                document.getElementById(id + i).style.backgroundColor = selectedColor;
+            }
+        } else { // Row click
+            const rowId = parseInt(id);
+            const columns = "ABCDEFGHIJKLMNOP".split("");
+            columns.forEach(col => {
+                document.getElementById(col + rowId).style.backgroundColor = selectedColor;
+            });
+        }
+    });
+});
+
+document.querySelectorAll(".grid-box").forEach(gridBox => {
+    gridBox.addEventListener("click", function(event) {
+        const gridBoxId = event.target.id;
+        document.getElementById(gridBoxId).style.backgroundColor = selectedColor;
+    });
+});
+
+    </script>
+</body>
+</html>
