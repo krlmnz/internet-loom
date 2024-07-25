@@ -1,0 +1,174 @@
+/* CSS Variables for reusable values */
+:root {
+    --square-size-small: 5vw;
+    --circle-size-small: 3vw;
+    --square-size-large: 32px;
+    --circle-size-large: 16px;
+    --container-size-large: 576px;
+    --grid-box-size-large: 32px;
+    --space: clamp(1rem, 2vw, 2.5rem);
+    --shadow: 0.6rem 0.6rem 0;
+}
+
+/* Reset margin, padding, and box-sizing for body */
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Container for the whole weaving component */
+.weaving-outer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+
+  
+}
+
+/* Main weaving container with various styles */
+.weaving-container {
+    wrap: nowrap;
+    padding: none;
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    border: #000000 3px solid;
+    box-shadow: var(--shadow);
+    margin-bottom: calc(var(--space) * 2);
+    position: relative;
+    outline: 0.3rem solid;
+    box-shadow: var(--shadow);
+    margin-top: calc(var(--space) * 2);
+    background: linear-gradient(to right, transparent calc(100% - 1px), lightgrey 0), 
+                linear-gradient(to bottom, transparent calc(100% - 1px), lightgrey 0), 
+                white;
+    background-size: var(--sizeX) 100%, 100% var(--sizeY);
+   
+}
+
+/* Flex row container */
+.weaving-row {
+    display: flex;
+    margin: 0;
+}
+
+/* Column inside weaving component */
+.weaving-column {
+    height: auto;
+    width: var(--square-size-small);
+    gap: 0px;
+    display: block;
+}
+
+/* Individual box inside the weaving grid */
+.weaving-box {
+    width: var(--square-size-small);
+    height: var(--square-size-small);
+    background: #F5F3AF;
+    display: inline-block;
+}
+
+/* Fixed row with circles inside the weaving component */
+.weaving-fixed-row {
+    width: auto;
+    height: var(--square-size-small);
+    display: flex;
+}
+
+/* Container for individual circle */
+.weaving-circle-box {
+    width: var(--square-size-small);
+    height: var(--square-size-small);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+/* Circle element with specific styles */
+.weaving-circle {
+    width: var(--circle-size-small);
+    height: var(--circle-size-small);
+    background: black;
+    border-radius: 50%;
+    border: 2px solid #0A0D16;
+    cursor: pointer;
+}
+
+/* Wrapper for circle to center it */
+.weaving-circle-wrapper {
+    height: var(--square-size-small);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Grid container for the weaving grid */
+.weaving-grid {
+    width: auto;
+    display: grid;
+    grid-template-columns: repeat(16, var(--square-size-small));
+    grid-template-rows: repeat(16, var(--square-size-small));
+}
+
+/* Individual box inside the grid */
+.weaving-grid-box {
+    width: var(--square-size-small);
+    height: var(--square-size-small);
+    background: white;
+    border: 1px solid #000000;
+    display: inline-block;
+}
+
+/* Responsive styles for larger screens */
+@media (min-width: 768px) {
+    .weaving-container {
+        width: var(--container-size-large);
+        height: auto;
+    }
+
+    .weaving-row {
+        display: flex;
+    }
+
+    .weaving-column {
+        height: auto;
+        width: var(--square-size-large);
+    }
+
+    .weaving-box {
+        width: var(--square-size-large);
+        height: var(--square-size-large);
+    }
+
+    .weaving-fixed-row {
+        width: var(--container-size-large);
+        height: var(--square-size-large);
+    }
+
+    .weaving-circle-box {
+        width: var(--square-size-large);
+        height: var(--square-size-large);
+    }
+
+    .weaving-circle {
+        width: var(--circle-size-large);
+        height: var(--circle-size-large);
+    }
+
+    .weaving-circle-wrapper {
+        height: var(--square-size-large);
+    }
+
+    .weaving-grid {
+        width: var(--container-size-large);
+        grid-template-columns: repeat(16, var(--grid-box-size-large));
+        grid-template-rows: repeat(16, var(--grid-box-size-large));
+    }
+
+    .weaving-grid-box {
+        width: var(--grid-box-size-large);
+        height: var(--grid-box-size-large);
+    }
+}

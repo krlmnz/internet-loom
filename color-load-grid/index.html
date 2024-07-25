@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - A Pen by Karol Munoz</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+50<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pantone Color Swatches</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+    .controls {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .controls button, .controls select {
+      margin: 5px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      background-color: #f0f0f0;
+      border-radius: 5px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+    }
+    .controls button.active {
+      background-color: #007bff;
+    }
+    #color-swatches {
+      display: grid;
+      gap: 0px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .swatch {
+      width: 50px;
+      height: 50px;
+      display: inline-block;
+      position: relative;
+      border: 1px solid #ccc;
+    }
+    .lock-button {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background-color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    #reload-button {
+      margin: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      background-color: #28a745;
+      color: white;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <button class="category-button" data-category="all" style="background-color: #888;">
+      <i class="fas fa-palette"></i>
+    </button>
+    <button class="category-button" data-category="neutrals" style="background-color: #777;">
+      <i class="fas fa-circle-notch"></i>
+    </button>
+    <button class="category-button" data-category="warm" style="background-color: #ff6347;">
+      <i class="fas fa-sun"></i>
+    </button>
+    <button class="category-button" data-category="cool" style="background-color: #1e90ff;">
+      <i class="fas fa-snowflake"></i>
+    </button>
+    <button class="category-button" data-category="monochromatic" style="background-color: #666;">
+      <i class="fas fa-adjust"></i>
+    </button>
+    <button class="category-button" data-category="neon" style="background-color: #ff1493;">
+      <i class="fas fa-bolt"></i>
+    </button>
+    <button class="category-button" data-category="brights" style="background-color: #ffd700;">
+      <i class="fas fa-lightbulb"></i>
+    </button>
+    <button class="category-button" data-category="pastels" style="background-color: #ffb6c1;">
+      <i class="fas fa-cloud"></i>
+    </button>
+    <button class="category-button" data-category="jewel" style="background-color: #8a2be2;">
+      <i class="fas fa-gem"></i>
+    </button>
+    <select id="grid-size-selector">
+      <option value="8">8x8</option>
+      <option value="16">16x16</option>
+      <option value="32">32x32</option>
+    </select>
+  </div>
+
+  <div id="color-swatches"></div>
+  <button id="reload-button"><i class="fas fa-random"></i> Shuffle Colors</button>
+
+  <script>
+    let lockedColors = {};
+    let activeCategory = 'all';
+    let gridSize = 8;
+
+    document.querySelectorAll('.category-button').forEach(button => {
+      button.addEventListener('click', () => {
+        document.querySelectorAll('.category-button').forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        activeCategory = button.getAttribute('data-category');
+        loadColors();
+      });
+    });
+
+    document.getElementById('grid-size-selector').addEventListener('change', event => {
+      gridSize = parseInt(event.target.value);
+      loadColors();
+    });
+
+    function loadColors() {
+      fetch('https://raw.githubusercontent.com/Margaret2/pantone-colors/master/pantone-colors.json')
+        .then(response => response.json())
+        .then(data => {
+          const pantoneData = data;
+          const filteredColors = filterColors(pantoneData);
+          const randomColors = getRandomColors(filteredColors, gridSize * gridSize);
+          displayColorSwatches(randomColors);
+        })
+        .catch(error => console.error('Error fetching the JSON file:', error));
+    }
+
+    function filterColors(colorData) {
+      return colorData.values.filter(color => {
+        const [r, g, b] = hexToRgb(color);
+        const [h, s, l] = rgbToHsl(r, g, b);
+        return matchesCategory(h, s, l, activeCategory);
+      });
+    }
+
+    function matchesCategory(h, s, l, category) {
+      switch (category) {
+        case 'neutrals': return s <= 0.1 && l >= 0.3 && l <= 0.7;
+        case 'warm': return (h >= 0 && h < 60) || (h >= 300 && h < 360);
+        case 'cool': return h >= 60 && h < 300;
+        case 'monochromatic': return s <= 0.1;
+        case 'neon': return s >= 0.9 && l >= 0.5 && (h < 50 || (h > 160 && h < 190));
+        case 'brights': return s >= 0.8 && l >= 0.5;
+        case 'pastels': return s <= 0.3 && l >= 0.7;
+        case 'jewel': return s >= 0.5 && l >= 0.3 && l <= 0.6;
+        default: return true;
+      }
+    }
+
+    function getRandomColors(colorData, numColors) {
+      const selectedColors = [];
+      const colorCount = colorData.length;
+
+      for (let i = 0; i < numColors; i++) {
+        if (lockedColors[i]) {
+          selectedColors.push(lockedColors[i]);
+        } else {
+          const randomIndex = Math.floor(Math.random() * colorCount);
+          selectedColors.push(colorData[randomIndex]);
+        }
+      }
+
+      return selectedColors;
+    }
+
+    function displayColorSwatches(colors) {
+      const container = document.getElementById('color-swatches');
+      container.style.gridTemplateColumns = `repeat(${gridSize}, 1fr)`;
+      container.innerHTML = ''; // Clear previous swatches
+      colors.forEach((color, index) => {
+        const swatch = document.createElement('div');
+        swatch.className = 'swatch';
+        swatch.style.backgroundColor = color;
+
+        const lockButton = document.createElement('button');
+        lockButton.className = 'lock-button';
+        lockButton.innerHTML = lockedColors[index] ? '<i class="fas fa-lock"></i>' : '<i class="fas fa-unlock"></i>';
+        lockButton.addEventListener('click', () => toggleLock(index, color, lockButton));
+
+        swatch.appendChild(lockButton);
+        container.appendChild(swatch);
+      });
+    }
+
+    function toggleLock(index, color, button) {
+      if (lockedColors[index]) {
+        delete lockedColors[index];
+        button.innerHTML = '<i class="fas fa-unlock"></i>';
+      } else {
+        lockedColors[index] = color;
+        button.innerHTML = '<i class="fas fa-lock"></i>';
+      }
+    }
+
+    function hexToRgb(hex) {
+      let r = 0, g = 0, b = 0;
+      if (hex.length === 4) {
+        r = parseInt(hex[1] + hex[1], 16);
+        g = parseInt(hex[2] + hex[2], 16);
+        b = parseInt(hex[3] + hex[3], 16);
+      } else if (hex.length === 7) {
+        r = parseInt(hex[1] + hex[2], 16);
+        g = parseInt(hex[3] + hex[4], 16);
+        b = parseInt(hex[5] + hex[6], 16);
+      }
+      return [r, g, b];
+    }
+
+    function rgbToHsl(r, g, b) {
+      r /= 255, g /= 255, b /= 255;
+      let max = Math.max(r, g, b), min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+
+      if (max === min) {
+        h = s = 0;
+      } else {
+        let d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+
+      return [h * 360, s, l];
+    }
+
+    document.getElementById('reload-button').addEventListener('click', loadColors);
+
+    loadColors();
+  </script>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>

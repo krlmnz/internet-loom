@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - A Pen by Karol Munoz</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pantone Color Swatches</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .swatch {
+      width: 100px;
+      height: 100px;
+      margin: 5px;
+      display: inline-block;
+      position: relative;
+    }
+    .lock-button {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background-color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    #reload-button {
+      margin: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+    .controls {
+      margin-bottom: 20px;
+    }
+    .control-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .control-group label {
+      margin: 0 10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <div class="control-group">
+      <label for="hue"><i class="fa-solid fa-swatchbook"></i></label>
+      <select id="hue">
+        <option value="all">All</option>
+        <option value="warm">Warm Colors</option>
+        <option value="cool">Cool Colors</option>
+        <option value="neutral">Neutrals</option>
+      </select>
+
+      <label for="saturation">Saturation:</label>
+      <select id="saturation">
+        <option value="all">All</option>
+        <option value="brights">Brights</option>
+        <option value="muted">Muted</option>
+        <option value="desaturated">Desaturated</option>
+      </select>
+
+      <label for="lightness">Lightness:</label>
+      <select id="lightness">
+        <option value="all">All</option>
+        <option value="light">Light</option>
+        <option value="medium">Medium</option>
+        <option value="dark">Dark</option>
+      </select>
+
+      <button id="reload-button"><i class="fas fa-sync-alt"></i></button>
+    </div>
+  </div>
+
+  <div id="color-swatches"></div>
+
+  <script>
+    let lockedColors = {};
+
+    function loadColors() {
+      fetch('https://raw.githubusercontent.com/Margaret2/pantone-colors/master/pantone-colors.json')
+        .then(response => response.json())
+        .then(data => {
+          const pantoneData = data;
+          const filteredColors = filterColors(pantoneData);
+          const randomColors = getRandomColors(filteredColors, 10);
+          displayColorSwatches(randomColors);
+        })
+        .catch(error => console.error('Error fetching the JSON file:', error));
+    }
+
+    function filterColors(colorData) {
+      const hue = document.getElementById('hue').value;
+      const saturation = document.getElementById('saturation').value;
+      const lightness = document.getElementById('lightness').value;
+
+      return colorData.values.filter(color => {
+        const [r, g, b] = hexToRgb(color);
+        const [h, s, l] = rgbToHsl(r, g, b);
+
+        return (hue === 'all' || matchesHueCategory(h, hue)) &&
+               (saturation === 'all' || matchesSaturationCategory(s, saturation)) &&
+               (lightness === 'all' || matchesLightnessCategory(l, lightness));
+      });
+    }
+
+    function matchesHueCategory(hue, category) {
+      switch (category) {
+        case 'warm': return hue >= 0 && hue < 60 || hue >= 300 && hue < 360;
+        case 'cool': return hue >= 60 && hue < 300;
+        case 'neutral': return true; // Neutrals are handled by saturation and lightness
+        default: return true;
+      }
+    }
+
+    function matchesSaturationCategory(saturation, category) {
+      switch (category) {
+        case 'brights': return saturation > 0.7;
+        case 'muted': return saturation > 0.4 && saturation <= 0.7;
+        case 'desaturated': return saturation <= 0.4;
+        default: return true;
+      }
+    }
+
+    function matchesLightnessCategory(lightness, category) {
+      switch (category) {
+        case 'light': return lightness > 0.7;
+        case 'medium': return lightness > 0.4 && lightness <= 0.7;
+        case 'dark': return lightness <= 0.4;
+        default: return true;
+      }
+    }
+
+    function getRandomColors(colorData, numColors) {
+      const selectedColors = [];
+      const colorCount = colorData.length;
+
+      for (let i = 0; i < numColors; i++) {
+        if (lockedColors[i]) {
+          selectedColors.push(lockedColors[i]);
+        } else {
+          const randomIndex = Math.floor(Math.random() * colorCount);
+          selectedColors.push(colorData[randomIndex]);
+        }
+      }
+
+      return selectedColors;
+    }
+
+    function displayColorSwatches(colors) {
+      const container = document.getElementById('color-swatches');
+      container.innerHTML = ''; // Clear previous swatches
+      colors.forEach((color, index) => {
+        const swatch = document.createElement('div');
+        swatch.className = 'swatch';
+        swatch.style.backgroundColor = color;
+
+        const lockButton = document.createElement('button');
+        lockButton.className = 'lock-button';
+        lockButton.innerHTML = lockedColors[index] ? '<i class="fas fa-lock"></i>' : '<i class="fas fa-unlock"></i>';
+        lockButton.addEventListener('click', () => toggleLock(index, color, lockButton));
+
+        swatch.appendChild(lockButton);
+        container.appendChild(swatch);
+      });
+    }
+
+    function toggleLock(index, color, button) {
+      if (lockedColors[index]) {
+        delete lockedColors[index];
+        button.innerHTML = '<i class="fas fa-unlock"></i>';
+      } else {
+        lockedColors[index] = color;
+        button.innerHTML = '<i class="fas fa-lock"></i>';
+      }
+    }
+
+    function hexToRgb(hex) {
+      let r = 0, g = 0, b = 0;
+      if (hex.length === 4) {
+        r = parseInt(hex[1] + hex[1], 16);
+        g = parseInt(hex[2] + hex[2], 16);
+        b = parseInt(hex[3] + hex[3], 16);
+      } else if (hex.length === 7) {
+        r = parseInt(hex[1] + hex[2], 16);
+        g = parseInt(hex[3] + hex[4], 16);
+        b = parseInt(hex[5] + hex[6], 16);
+      }
+      return [r, g, b];
+    }
+
+    function rgbToHsl(r, g, b) {
+      r /= 255, g /= 255, b /= 255;
+      let max = Math.max(r, g, b), min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+
+      if (max === min) {
+        h = s = 0;
+      } else {
+        let d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+
+      return [h * 360, s, l];
+    }
+
+    document.getElementById('reload-button').addEventListener('click', loadColors);
+
+    loadColors();
+  </script>
+<!-- partial -->
+  
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - A Pen by Karol Munoz</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pantone Color Swatches</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    .swatch {
+      width: 100px;
+      height: 100px;
+      margin: 5px;
+      display: inline-block;
+      position: relative;
+    }
+    .lock-button {
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      background-color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    #reload-button {
+      margin: 20px;
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+    .controls {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <label for="category">Category:</label>
+    <select id="category">
+      <option value="all">All</option>
+      <option value="neutrals">Neutrals</option>
+      <option value="warm">Warm Colors</option>
+      <option value="cool">Cool Colors</option>
+      <option value="monochromatic">Monochromatic</option>
+      <option value="neon">Neon</option>
+      <option value="brights">Brights</option>
+      <option value="pastels">Pastels</option>
+      <option value="jewel">Jewel Tones</option>
+    </select>
+  </div>
+
+  <div id="color-swatches"></div>
+  <button id="reload-button">Reload Colors</button>
+
+  <script>
+    let lockedColors = {};
+
+    function loadColors() {
+      fetch('https://raw.githubusercontent.com/Margaret2/pantone-colors/master/pantone-colors.json')
+        .then(response => response.json())
+        .then(data => {
+          const pantoneData = data;
+          const filteredColors = filterColors(pantoneData);
+          const randomColors = getRandomColors(filteredColors, 10);
+          displayColorSwatches(randomColors);
+        })
+        .catch(error => console.error('Error fetching the JSON file:', error));
+    }
+
+    function filterColors(colorData) {
+      const category = document.getElementById('category').value;
+
+      return colorData.values.filter(color => {
+        const [r, g, b] = hexToRgb(color);
+        const [h, s, l] = rgbToHsl(r, g, b);
+
+        return matchesCategory(h, s, l, category);
+      });
+    }
+
+    function matchesCategory(h, s, l, category) {
+      switch (category) {
+        case 'neutrals': return s <= 0.1 && l >= 0.3 && l <= 0.7;
+        case 'warm': return (h >= 0 && h < 60) || (h >= 300 && h < 360);
+        case 'cool': return h >= 60 && h < 300;
+        case 'monochromatic': return s <= 0.1;
+        case 'neon': return s >= 0.9 && l >= 0.5;
+        case 'brights': return s >= 0.7 && l >= 0.5;
+        case 'pastels': return s <= 0.3 && l >= 0.7;
+        case 'jewel': return s >= 0.5 && l >= 0.3 && l <= 0.6;
+        default: return true;
+      }
+    }
+
+    function getRandomColors(colorData, numColors) {
+      const selectedColors = [];
+      const colorCount = colorData.length;
+
+      for (let i = 0; i < numColors; i++) {
+        if (lockedColors[i]) {
+          selectedColors.push(lockedColors[i]);
+        } else {
+          const randomIndex = Math.floor(Math.random() * colorCount);
+          selectedColors.push(colorData[randomIndex]);
+        }
+      }
+
+      return selectedColors;
+    }
+
+    function displayColorSwatches(colors) {
+      const container = document.getElementById('color-swatches');
+      container.innerHTML = ''; // Clear previous swatches
+      colors.forEach((color, index) => {
+        const swatch = document.createElement('div');
+        swatch.className = 'swatch';
+        swatch.style.backgroundColor = color;
+
+        const lockButton = document.createElement('button');
+        lockButton.className = 'lock-button';
+        lockButton.innerHTML = lockedColors[index] ? '<i class="fas fa-lock"></i>' : '<i class="fas fa-unlock"></i>';
+        lockButton.addEventListener('click', () => toggleLock(index, color, lockButton));
+
+        swatch.appendChild(lockButton);
+        container.appendChild(swatch);
+      });
+    }
+
+    function toggleLock(index, color, button) {
+      if (lockedColors[index]) {
+        delete lockedColors[index];
+        button.innerHTML = '<i class="fas fa-unlock"></i>';
+      } else {
+        lockedColors[index] = color;
+        button.innerHTML = '<i class="fas fa-lock"></i>';
+      }
+    }
+
+    function hexToRgb(hex) {
+      let r = 0, g = 0, b = 0;
+      if (hex.length === 4) {
+        r = parseInt(hex[1] + hex[1], 16);
+        g = parseInt(hex[2] + hex[2], 16);
+        b = parseInt(hex[3] + hex[3], 16);
+      } else if (hex.length === 7) {
+        r = parseInt(hex[1] + hex[2], 16);
+        g = parseInt(hex[3] + hex[4], 16);
+        b = parseInt(hex[5] + hex[6], 16);
+      }
+      return [r, g, b];
+    }
+
+    function rgbToHsl(r, g, b) {
+      r /= 255, g /= 255, b /= 255;
+      let max = Math.max(r, g, b), min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+
+      if (max === min) {
+        h = s = 0;
+      } else {
+        let d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
+        }
+        h /= 6;
+      }
+
+      return [h * 360, s, l];
+    }
+
+    document.getElementById('reload-button').addEventListener('click', loadColors);
+
+    loadColors();
+  </script>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
