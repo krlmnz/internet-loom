@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weaving Diagram Tool</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<style>
+
+:root {
+    --spacing-small: 8px;
+    --spacing-medium: 16px;
+    --spacing-large: 24px;
+    --color-bg: #F4F4F3;
+    --color-nav-bg: #2D2D2D;
+    --color-nav-text: #FFFFFF;
+    --color-button-bg: #EEEEEE;
+    --color-button-border: #545454;
+
+    /* Type scaling variables */
+    --font-size-h1: 23.61px;
+    --font-size-h2: 22.13px;
+    --font-size-h3: 20.74px;
+    --font-size-h4: 19.44px;
+    --font-size-h5: 18.22px;
+    --font-size-h6: 17.07px;
+    --font-size-p: 16px;
+    --font-size-small: 15px;
+    --font-size-xs: 14.05px;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    background: var(--color-bg);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Ubuntu', sans-serif;
+}
+
+#main-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    max-width: 900px;
+}
+
+
+
+#content-container {
+    flex-grow: 1;
+    display: flex;
+    background: transparent;
+
+    overflow: hidden;
+    justify-items: space-around;
+   
+}
+
+#left-sidebar, #right-sidebar {
+   
+    padding: var(--spacing-small);
+    background-color: #fff;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    border-radius: .5rem;
+    margin: 2rem;
+    overflow-y: scroll;
+    border-right: #EEEEEE 2px solid;
+    align-items: center;
+    margin: 3rem;
+    min-height: 3rem;
+    width: auto;
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+#center-container {
+    
+   
+    background: peru;
+    display: block;
+    padding: 4rem;
+    
+  
+}
+
+
+.canvas-container {
+    position: relative;
+    display: block;
+    
+}
+
+
+
+.click-area {
+    position: absolute;
+    background-color: white;
+    border: 2px black solid;
+    border-radius: 50%;
+    cursor: pointer;
+    width: 1rem;
+    height: 1rem;
+    margin-top: 6px;
+    margin-left: 5px;
+    justify-content: space-between;
+    box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.2), inset 1px 1px 1px rgba(255, 255, 255, 0.3), inset -1px -1px 1px rgba(0, 0, 0, 0.3);
+    transition: background-color 125ms;
+}
+
+.swatch, .pattern-button  {
+    width: 3rem;
+    height: 3rem;
+   
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 0px;
+    transition: transform 0.2s;
+    border: 1px solid #000000;
+    
+}
+
+.pattern-button  {
+
+    margin: 0px 8px;
+}
+
+.swatch:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+
+
+
+@media only screen and (max-width: 800px) {
+  
+    #main-container {
+        width: 100%;
+        margin: 0px;
+    }
+
+    #content-container {
+        flex-direction: column;
+        width: 100%;
+        margin: 0px;
+    }
+
+    #left-sidebar, #right-sidebar {
+       
+        overflow: scroll;
+      
+        display: flex;
+        flex-direction: column;
+       
+        width: 100%;
+        margin: 0px;
+    }
+
+    #pattern-buttons {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 0px;
+        width: 100%;
+    }
+
+ 
+
+ 
+}
+
+
+
+.utility-nav-bar-container {
+    width: 100%;
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+  }
+
+  .utility-nav-bar {
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  #reload-button {
+    padding: 16px;
+    font-size: 1rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: #000;
+  }
+
+  #reload-button i {
+    color: #fff;
+    transition: color 0.2s;
+  }
+
+  #reload-button:hover i {
+    color: #eee;
+  }
+
+  #color-swatches {
+    display: flex;
+    overflow-x: auto;
+    padding: 0rem;
+    border: 1px solid #000000;
+    
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    background-color: #eb0b8e;
+  }
+
+  .outer-container {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: space-between;
+    background-color: #f4d34f;
+  }
+
+  .inner-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #7beb0b;
+  }
+
+ 
+  .lock-button {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 10px;
+    border-radius: 50%;
+
+    transition: background-color 0.2s;
+    width: 20px;
+    height: 20px;
+  }
+
+  .lock-button.locked {
+    color: #000;
+  }
+
+  .lock-button.unlocked {
+    color: #00000066;
+  }
+
+  .lock-button:hover {
+    background-color: rgba(255, 255, 255, 1);
+  }
+
+
+r
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  .bottom-layout, .top-layout, .sidebar-layout, .floating-layout, .center-layout {
+    display: none;
+  }
+
+  @media (max-width: 600px) {
+   
+
+    #reload-button {
+      font-size: 0.875rem;
+      padding: 8px;
+    }
+
+    .utility-nav-bar {
+      padding: 4px;
+    }
+
+
+
+  }
+
+  /* Bottom Layout */
+  .bottom-layout {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    justify-content: flex-end;
+  }
+
+  .bottom-layout .utility-nav-bar-container {
+    order: 1;
+  }
+
+  .bottom-layout #color-swatches {
+    order: 0;
+  }
+
+
+</style>
+
+
+
+</head>
+<body>
+    <div id="main-container">
+       
+        <div id="content-container">
+            <div id="left-sidebar">
+                <div id="pattern-buttons">
+                    <button class="pattern-button" onclick="applyPattern(plainWeave)">
+                        <img src="./img/plain.svg" width="40px">
+                    </button>
+                    <button class="pattern-button" onclick="applyPattern(basketWeave)">
+                        <img src="./img/basket.svg" width="40px">
+                    </button>
+                    <button class="pattern-button" onclick="applyPattern(twillWeave)">
+                        <img src="./img/satin.svg" width="40px">
+                    </button>
+                    <button class="pattern-button" onclick="applyPattern(satinWeave)">
+                        <img src="./img/twill.svg" width="40px">
+                    </button>
+                    <button class="pattern-button" onclick="applyPattern(honeycombWeave)">
+                        <img src="./img/satin.svg" width="40px">
+                    </button>
+                    <button class="pattern-button" onclick="applyPattern(huckabackWeave)">
+                        <img src="./img/satin.svg" width="40px">
+                    </button>
+                    <button class="pattern-button" onclick="applyPattern(mockLenoWeave)">
+                        <img src="./img/satin.svg" width="40px">
+                    </button>
+                    <button class="pattern-button" onclick="applyPattern(mapuchePattern)">
+                        <img src="./img/satin.svg" width="40px">
+                    </button>
+                    <button class="pattern-button" onclick="applyPattern(incaPattern)">
+                        <img src="./img/satin.svg" width="40px">
+                    </button>
+                    <button class="pattern-button" onclick="applyPattern(aztecPattern)">
+                        <img src="./img/satin.svg" width="40px">
+                    </button>
+                </div>
+            </div>
+            <div id="center-container">
+               
+                    <div class="canvas-container" id="canvasContainer">
+                        <canvas id="weavingCanvas"></canvas>
+                    </div>
+               
+            </div>
+            
+        </div>
+        
+         <!-- Bottom Layout -->
+  <div class="bottom-layout">
+    <div id="color-swatches">
+      <div class="outer-container" id="outer-container"></div>
+
+    </div>
+    <div class="utility-nav-bar-container">
+      <div class="utility-nav-bar">
+        <button id="reload-button"><i class="fas fa-sync-alt"></i></button>
+      </div>
+    </div>
+  </div>
+    </div>
+
+    
+
+  <script>
+    let lockedColors = {};
+
+    function loadColors() {
+      fetch('https://raw.githubusercontent.com/krlmnz/internet-loom/main/pantone-color.json')
+        .then(response => response.json())
+        .then(data => {
+          const pantoneData = data;
+          const randomColors = getRandomColors(pantoneData, 40);
+          displayColorSwatches(randomColors);
+        })
+        .catch(error => console.error('Error fetching the JSON file:', error));
+    }
+
+    function getRandomColors(colorData, numColors) {
+      const selectedColors = [];
+      const colorCount = colorData.values.length;
+
+      for (let i = 0; i < numColors; i++) {
+        if (lockedColors[i]) {
+          selectedColors.push(lockedColors[i]);
+        } else {
+          const randomIndex = Math.floor(Math.random() * colorCount);
+          selectedColors.push(colorData.values[randomIndex]);
+        }
+      }
+
+      return selectedColors;
+    }
+
+    function displayColorSwatches(colors) {
+      const outerContainer = document.getElementById('outer-container');
+      outerContainer.innerHTML = ''; // Clear previous swatches
+      colors.forEach((color, index) => {
+        const innerContainer = document.createElement('div');
+        innerContainer.className = 'inner-container';
+        
+        const swatch = document.createElement('div');
+        swatch.className = 'swatch';
+        swatch.style.backgroundColor = color;
+
+        const lockButton = document.createElement('button');
+        lockButton.className = `lock-button ${lockedColors[index] ? 'locked' : 'unlocked'}`;
+        lockButton.setAttribute('aria-label', lockedColors[index] ? 'Unlock color' : 'Lock color');
+        lockButton.innerHTML = `<i class="fas ${lockedColors[index] ? 'fa-lock' : 'fa-lock-open'}"></i>`;
+        lockButton.addEventListener('click', () => toggleLock(index, color, lockButton));
+
+        swatch.appendChild(lockButton);
+        innerContainer.appendChild(swatch);
+        outerContainer.appendChild(innerContainer);
+      });
+    }
+
+    function toggleLock(index, color, button) {
+      if (lockedColors[index]) {
+        delete lockedColors[index];
+        button.className = 'lock-button unlocked';
+        button.setAttribute('aria-label', 'Lock color');
+        button.innerHTML = '<i class="fas fa-lock-open"></i>';
+      } else {
+        lockedColors[index] = color;
+        button.className = 'lock-button locked';
+        button.setAttribute('aria-label', 'Unlock color');
+        button.innerHTML = '<i class="fas fa-lock"></i>';
+      }
+    }
+
+    document.getElementById('reload-button').addEventListener('click', loadColors);
+
+    loadColors();
+
+
+
+
+    let mainCanvas = document.getElementById('weavingCanvas');
+let ctx = mainCanvas.getContext('2d');
+let gridSize = 16;
+let cellSize;
+let grid = [];
+let selectedColor = '#000000';
+
+function resizeCanvas() {
+    const canvasWidth = Math.min(window.innerWidth * 0.8, 512);
+    mainCanvas.width = canvasWidth;
+    mainCanvas.height = canvasWidth;
+    cellSize = mainCanvas.width / gridSize;
+
+    const canvasContainer = document.getElementById('canvasContainer');
+    canvasContainer.style.width = canvasWidth + 'px';
+    canvasContainer.style.height = canvasWidth + 'px';
+
+    createClickAreas();
+    drawGrid();
+}
+
+function initializeCanvas(rows, cols) {
+    gridSize = rows;
+    grid = Array.from({ length: rows }, () => Array(cols).fill('white'));
+    resizeCanvas();
+}
+
+function drawGrid() {
+    ctx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+    for (let row = 0; row < gridSize; row++) {
+        for (let col = 0; col < gridSize; col++) {
+            ctx.beginPath();
+            ctx.rect(col * cellSize, row * cellSize, cellSize, cellSize);
+            ctx.fillStyle = grid[row][col];
+            ctx.fill();
+            ctx.stroke();
+        }
+    }
+}
+
+function fillRow(row) {
+    for (let col = 0; col < gridSize; col++) {
+        grid[row][col] = selectedColor;
+    }
+    drawGrid();
+    saveHistory();
+}
+
+function fillColumn(col) {
+    for (let row = 0; row < gridSize; row++) {
+        grid[row][col] = selectedColor;
+    }
+    drawGrid();
+    saveHistory();
+}
+
+function createClickAreas() {
+    const canvasContainer = document.getElementById('canvasContainer');
+    canvasContainer.querySelectorAll('.click-area').forEach(area => area.remove());
+
+    const dotSize = 32;
+    const offset = dotSize / 2;
+    for (let i = 0; i < gridSize; i++) {
+        let topArea = document.createElement('div');
+        topArea.classList.add('click-area');
+        topArea.style.left = (i * cellSize + cellSize / 2 - offset) + 'px';
+        topArea.style.top = (-dotSize - 0) + 'px';
+        topArea.addEventListener('click', () => fillColumn(i));
+        canvasContainer.appendChild(topArea);
+
+        let bottomArea = document.createElement('div');
+        bottomArea.classList.add('click-area');
+        bottomArea.style.left = (i * cellSize + cellSize / 2 - offset) + 'px';
+        bottomArea.style.top = (mainCanvas.height + 0) + 'px';
+        bottomArea.addEventListener('click', () => fillColumn(i));
+        canvasContainer.appendChild(bottomArea);
+
+        let leftArea = document.createElement('div');
+        leftArea.classList.add('click-area');
+        leftArea.style.top = (i * cellSize + cellSize / 2 - offset) + 'px';
+        leftArea.style.left = (-dotSize - 0) + 'px';
+        leftArea.addEventListener('click', () => fillRow(i));
+        canvasContainer.appendChild(leftArea);
+
+        let rightArea = document.createElement('div');
+        rightArea.classList.add('click-area');
+        rightArea.style.top = (i * cellSize + cellSize / 2 - offset) + 'px';
+        rightArea.style.left = (mainCanvas.width + 0) + 'px';
+        rightArea.addEventListener('click', () => fillRow(i));
+        canvasContainer.appendChild(rightArea);
+    }
+}
+
+mainCanvas.addEventListener('click', function(event) {
+    const x = event.offsetX;
+    const y = event.offsetY;
+    const col = Math.floor(x / cellSize);
+    const row = Math.floor(y / cellSize);
+    grid[row][col] = selectedColor;
+    drawGrid();
+    saveHistory();
+});
+
+window.addEventListener('resize', resizeCanvas);
+
+initializeCanvas(16, 16);
+
+
+
+
+const plainWeave = (size) => {
+    return Array.from({ length: size }, (_, i) =>
+        Array.from({ length: size }, (_, j) => (i + j) % 2 === 0 ? 1 : 0)
+    );
+};
+
+const basketWeave = (size) => {
+    return Array.from({ length: size }, (_, i) =>
+        Array.from({ length: size }, (_, j) => (Math.floor(i / 2) + Math.floor(j / 2)) % 2 === 0 ? 1 : 0)
+    );
+};
+
+const twillWeave = (size) => {
+    return Array.from({ length: size }, (_, i) =>
+        Array.from({ length: size }, (_, j) => ((i + j) % size < size / 2) ? 1 : 0)
+    );
+};
+
+const satinWeave = (size) => {
+    return Array.from({ length: size }, (_, i) =>
+        Array.from({ length: size }, (_, j) => ((i * 2 + j * 3) % size) < size / 2 ? 1 : 0)
+    );
+};
+
+const honeycombWeave = (size) => {
+    return Array.from({ length: size }, (_, i) =>
+        Array.from({ length: size }, (_, j) => ((i ^ j) % size) < size / 2 ? 1 : 0)
+    );
+};
+
+const huckabackWeave = (size) => {
+    return Array.from({ length: size }, (_, i) =>
+        Array.from({ length: size }, (_, j) => ((i % 2) ^ (j % 2)) ? 1 : 0)
+    );
+};
+
+const mockLenoWeave = (size) => {
+    return Array.from({ length: size }, (_, i) =>
+        Array.from({ length: size }, (_, j) => (Math.floor(i / 2) % 2 === 0) ^ (Math.floor(j / 2) % 2 === 0) ? 1 : 0)
+    );
+};
+
+const mapuchePattern = (size) => {
+    return Array.from({ length: size }, (_, i) =>
+        Array.from({ length: size }, (_, j) => ((i % 4 === 0 || j % 4 === 0) ? 1 : 0))
+    );
+};
+
+const incaPattern = (size) => {
+    return Array.from({ length: size }, (_, i) =>
+        Array.from({ length: size }, (_, j) => ((i % 3 === 0 && j % 3 === 0) || ((i + j) % 3 === 0) ? 1 : 0))
+    );
+};
+
+const aztecPattern = (size) => {
+    return Array.from({ length: size }, (_, i) =>
+        Array.from({ length: size }, (_, j) => ((i % 2 === 0 && j % 2 === 0) || ((i + j) % 2 === 0) ? 1 : 0))
+    );
+};
+
+const patterns = [plainWeave, basketWeave, twillWeave, satinWeave, honeycombWeave, huckabackWeave, mockLenoWeave, mapuchePattern, incaPattern, aztecPattern];
+
+const applyPattern = (patternFunc) => {
+    const pattern = patternFunc(gridSize);
+    pattern.forEach((row, rowIndex) => {
+        row.forEach((value, colIndex) => {
+            grid[rowIndex][colIndex] = value === 1 ? selectedColor : 'white';
+        });
+    });
+    drawGrid();
+};
+
+
+
+  </script>
+ 
+</body>
+</html>

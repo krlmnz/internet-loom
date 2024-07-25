@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pantone Color Swatches</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f9;
+    }
+
+    .utility-nav-bar-container {
+      width: 100%;
+      background-color: #000;
+      border: 1px solid #eee;
+      display: flex;
+      justify-content: center;
+    }
+
+    .utility-nav-bar {
+      max-width: 1200px;
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+    }
+
+    #reload-button {
+      padding: 16px;
+      font-size: 1rem;
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: #000;
+    }
+
+    #reload-button i {
+      color: #fff;
+      transition: color 0.2s;
+    }
+
+    #reload-button:hover i {
+      color: #eee;
+    }
+
+    #color-swatches {
+      display: flex;
+      overflow-x: auto;
+      padding: 16px;
+      border: 1px solid #eee;
+      border-radius: 8px;
+    }
+
+    .outer-container {
+      display: flex;
+      flex-wrap: nowrap;
+    }
+
+    .inner-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 8px;
+    }
+
+    .swatch {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      border-radius: 8px;
+      transition: transform 0.2s;
+      border: 1px solid #eee;
+    }
+
+    .swatch:hover {
+      transform: scale(1.05);
+    }
+
+    .lock-button {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background-color: rgba(255, 255, 255, 0.8);
+      border: none;
+      cursor: pointer;
+      font-size: 0.75rem;
+      border-radius: 50%;
+      padding: 8px;
+      transition: background-color 0.2s;
+      width: 24px;
+      height: 24px;
+      border: 1px solid #eee;
+    }
+
+    .lock-button.locked {
+      color: #000;
+    }
+
+    .lock-button.unlocked {
+      color: #00000042;
+    }
+
+    .lock-button:hover {
+      background-color: rgba(255, 255, 255, 1);
+    }
+
+    .scroll-indicator {
+      width: 100%;
+      height: 4px;
+      background-color: #eee;
+      border-radius: 2px;
+      position: relative;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .scroll-indicator::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 20%;
+      height: 100%;
+      background-color: #000;
+      animation: scroll 2s infinite;
+    }
+
+    @keyframes scroll {
+      0% {
+        transform: translateX(0);
+      }
+      100% {
+        transform: translateX(100%);
+      }
+    }
+
+    .bottom-layout, .top-layout, .sidebar-layout, .floating-layout, .center-layout {
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .swatch {
+        width: 80px;
+        height: 80px;
+      }
+
+      #reload-button {
+        font-size: 0.875rem;
+        padding: 16px;
+      }
+
+      .utility-nav-bar {
+        padding: 8px;
+      }
+    }
+
+    /* Bottom Layout */
+    .bottom-layout {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      justify-content: flex-end;
+    }
+
+    .bottom-layout .utility-nav-bar-container {
+      order: 1;
+    }
+
+    .bottom-layout #color-swatches {
+      order: 0;
+    }
+
+    /* Top Layout */
+    .top-layout {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    .top-layout .utility-nav-bar-container {
+      order: 0;
+    }
+
+    .top-layout #color-swatches {
+      order: 1;
+    }
+
+    /* Sidebar Layout */
+    .sidebar-layout {
+      display: flex;
+      height: 100vh;
+    }
+
+    .sidebar-layout .utility-nav-bar-container {
+      flex-direction: column;
+      width: 100px;
+      height: 100%;
+    }
+
+    .sidebar-layout #color-swatches {
+      flex: 1;
+    }
+
+    /* Floating Layout */
+    .floating-layout {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      position: relative;
+    }
+
+    .floating-layout .utility-nav-bar-container {
+      position: absolute;
+      bottom: 16px;
+    }
+
+    .floating-layout #color-swatches {
+      max-width: 600px;
+      border: 1px solid #000;
+    }
+
+    /* Center Layout */
+    .center-layout {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      flex-direction: column;
+    }
+
+    .center-layout .utility-nav-bar-container {
+      margin-bottom: 16px;
+    }
+
+    .center-layout #color-swatches {
+      max-width: 600px;
+      border: 1px solid #000;
+    }
+  </style>
+</head>
+<body>
+  <!-- Bottom Layout -->
+  <div class="bottom-layout">
+    <div id="color-swatches">
+      <div class="outer-container" id="outer-container"></div>
+      <div class="scroll-indicator"></div>
+    </div>
+    <div class="utility-nav-bar-container">
+      <div class="utility-nav-bar">
+        <button id="reload-button"><i class="fas fa-sync-alt"></i></button>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+   <!-- Blocked
+
+  <!-- Top Layout 
+  <div class="top-layout">
+    <div class="utility-nav-bar-container">
+      <div class="utility-nav-bar">
+        <button id="reload-button"><i class="fas fa-sync-alt"></i></button>
+      </div>
+    </div>
+    <div id="color-swatches">
+      <div class="outer-container" id="outer-container"></div>
+      <div class="scroll-indicator"></div>
+    </div>
+  </div>-->
+
+  <!-- Sidebar Layout 
+  <div class="sidebar-layout">
+    <div class="utility-nav-bar-container">
+      <div class="utility-nav-bar">
+        <button id="reload-button"><i class="fas fa-sync-alt"></i></button>
+      </div>
+    </div>
+    <div id="color-swatches">
+      <div class="outer-container" id="outer-container"></div>
+      <div class="scroll-indicator"></div>
+    </div>
+  </div>
+
+<-->
+
+
+  <!-- Center Layout
+  <div class="center-layout">
+    <div class="utility-nav-bar-container">
+      <div class="utility-nav-bar">
+        <button id="reload-button"><i class="fas fa-sync-alt"></i></button>
+      </div>
+    </div>
+    <div id="color-swatches">
+      <div class="outer-container" id="outer-container"></div>
+      <div class="scroll-indicator"></div>
+    </div>
+  </div> -->
+
+  <script>
+    let lockedColors = {};
+
+    function loadColors() {
+      fetch('https://raw.githubusercontent.com/krlmnz/internet-loom/main/pantone-color.json')
+        .then(response => response.json())
+        .then(data => {
+          const pantoneData = data;
+          const randomColors = getRandomColors(pantoneData, 10);
+          displayColorSwatches(randomColors);
+        })
+        .catch(error => console.error('Error fetching the JSON file:', error));
+    }
+
+    function getRandomColors(colorData, numColors) {
+      const selectedColors = [];
+      const colorCount = colorData.values.length;
+
+      for (let i = 0; i < numColors; i++) {
+        if (lockedColors[i]) {
+          selectedColors.push(lockedColors[i]);
+        } else {
+          const randomIndex = Math.floor(Math.random() * colorCount);
+          selectedColors.push(colorData.values[randomIndex]);
+        }
+      }
+
+      return selectedColors;
+    }
+
+    function displayColorSwatches(colors) {
+      const outerContainer = document.getElementById('outer-container');
+      outerContainer.innerHTML = ''; // Clear previous swatches
+      colors.forEach((color, index) => {
+        const innerContainer = document.createElement('div');
+        innerContainer.className = 'inner-container';
+        
+        const swatch = document.createElement('div');
+        swatch.className = 'swatch';
+        swatch.style.backgroundColor = color;
+
+        const lockButton = document.createElement('button');
+        lockButton.className = `lock-button ${lockedColors[index] ? 'locked' : 'unlocked'}`;
+        lockButton.setAttribute('aria-label', lockedColors[index] ? 'Unlock color' : 'Lock color');
+        lockButton.innerHTML = `<i class="fas ${lockedColors[index] ? 'fa-lock' : 'fa-lock-open'}"></i>`;
+        lockButton.addEventListener('click', () => toggleLock(index, color, lockButton));
+
+        swatch.appendChild(lockButton);
+        innerContainer.appendChild(swatch);
+        outerContainer.appendChild(innerContainer);
+      });
+    }
+
+    function toggleLock(index, color, button) {
+      if (lockedColors[index]) {
+        delete lockedColors[index];
+        button.className = 'lock-button unlocked';
+        button.setAttribute('aria-label', 'Lock color');
+        button.innerHTML = '<i class="fas fa-lock-open"></i>';
+      } else {
+        lockedColors[index] = color;
+        button.className = 'lock-button locked';
+        button.setAttribute('aria-label', 'Unlock color');
+        button.innerHTML = '<i class="fas fa-lock"></i>';
+      }
+    }
+
+    document.getElementById('reload-button').addEventListener('click', loadColors);
+
+    loadColors();
+  </script>
+</body>
+</html>
