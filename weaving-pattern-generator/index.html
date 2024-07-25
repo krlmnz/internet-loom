@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weaving Pattern Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #weaveCanvas {
+            border: 1px solid #000;
+        }
+
+        #controls {
+            margin-top: 10px;
+        }
+
+        label, input, select, button {
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>Weaving Pattern Generator</h1>
+        <canvas id="weaveCanvas" width="400" height="400"></canvas>
+        <div id="controls">
+            <label for="weaveType">Select Weave Type:</label>
+            <select id="weaveType">
+                <option value="plain">Plain Weave</option>
+                <option value="twill">Twill Weave</option>
+                <option value="satin">Satin Weave</option>
+                <option value="honeycomb">Honeycomb Weave</option>
+                <option value="huckaback">Huck-a-Back Weave</option>
+                <option value="crepe">Crepe Weave</option>
+                <option value="bedford">Bedford Cord Weave</option>
+                <option value="welts">Welts and Pique Weave</option>
+                <option value="mockleno">Mock Leno Weave</option>
+                <option value="leno">Leno Weave</option>
+                <option value="double">Double Cloth</option>
+                <option value="terry">Terry Pile</option>
+                <option value="velvet">Velvets and Velveteens</option>
+            </select>
+            <label for="warpThreads">Warp Threads:</label>
+            <input type="number" id="warpThreads" value="10">
+            <label for="weftThreads">Weft Threads:</label>
+            <input type="number" id="weftThreads" value="10">
+            <label for="warpColor">Warp Color:</label>
+            <input type="color" id="warpColor" value="#000000">
+            <label for="weftColor">Weft Color:</label>
+            <input type="color" id="weftColor" value="#FFFFFF">
+            <button id="resetButton">Reset</button>
+            <button id="downloadButton">Download</button>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
