@@ -1,0 +1,282 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weaving Grid</title>
+
+<style>
+    
+    .weaving-outer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: auto;
+        
+    }
+    
+    .weaving-container {
+       
+        wrap: nowrap;
+        padding: none;
+        display: flex;
+        flex-direction: column;
+        border: #8dc335 2px solid;
+
+         
+    }
+    
+    .weaving-row {
+        display: flex;
+        width: auto;
+    }
+    
+    .weaving-column {
+        height: auto;
+        width: 5vw;
+        gap: 0px;
+        display: block;
+    }
+    
+    .weaving-box {
+        width: 5vw;
+        height: 5vw;
+        background: #F5F3AF;
+        display: inline-block;
+    }
+    
+    .weaving-fixed-row {
+        width: auto;
+        height: 5vw;
+        display: flex;
+    }
+    
+    .weaving-circle-box {
+        width: 5vw;
+        height: 5vw;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    
+    .weaving-circle {
+        width: 3vw;
+        height: 3vw;
+        background: black;
+        border-radius: 50%;
+        border: 2px solid #0A0D16;
+        cursor: pointer;
+    }
+    
+    .weaving-circle-wrapper {
+        height: 5vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .weaving-grid {
+        width: auto;
+        display: grid;
+        grid-template-columns: repeat(16, 5vw);
+        grid-template-rows: repeat(16, 5vw);
+    }
+    
+    .weaving-grid-box {
+        width: 5vw;
+        height: 5vw;
+        background: white;
+        border: 1px solid #DCDCDC;
+        display: inline-block;
+    }
+    
+    #weavingColorPicker {
+        margin-bottom: 1rem;
+        display: block;
+    }
+    
+    @media (min-width: 768px) {
+        .weaving-container {
+            width: 576px;
+            height: 576px;
+        }
+    
+        .weaving-row {
+            display: flex;
+        }
+    
+        .weaving-column {
+            height: 512px;
+            width: 32px;
+        }
+    
+        .weaving-box {
+            width: 32px;
+            height: 32px;
+        }
+    
+        .weaving-fixed-row {
+            width: 512px;
+            height: 32px;
+        }
+    
+        .weaving-circle-box {
+            width: 32px;
+            height: 32px;
+        }
+    
+        .weaving-circle {
+            width: 16px;
+            height: 16px;
+        }
+    
+        .weaving-circle-wrapper {
+            height: 32px;
+        }
+    
+        .weaving-grid {
+            width: 512px;
+            grid-template-columns: repeat(16, 32px);
+            grid-template-rows: repeat(16, 32px);
+        }
+    
+        .weaving-grid-box {
+            width: 32px;
+            height: 32px;
+        }
+    }
+    </style>
+
+
+</head>
+<body>
+    <input type="color" id="weavingColorPicker" value="#000000">
+    <div class="weaving-outer-container"></div>
+    <script>
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.createElement('div');
+    container.className = 'weaving-container';
+    
+    const createBox = () => {
+        const box = document.createElement('div');
+        box.className = 'weaving-box';
+        return box;
+    };
+    
+    const createCircle = (id) => {
+        const circle = document.createElement('div');
+        circle.className = 'weaving-circle';
+        circle.id = 'weaving-circle-' + id;
+        return circle;
+    };
+    
+    const createCircleBox = (id) => {
+        const circleBox = document.createElement('div');
+        circleBox.className = 'weaving-circle-box';
+        circleBox.appendChild(createCircle(id));
+        return circleBox;
+    };
+    
+    const createFixedRow = () => {
+        const fixedRow = document.createElement('div');
+        fixedRow.className = 'weaving-fixed-row';
+        const ids = "ABCDEFGHIJKLMNOP";
+        for (let char of ids) {
+            fixedRow.appendChild(createCircleBox(char));
+        }
+        return fixedRow;
+    };
+    
+    const createRow = () => {
+        const row = document.createElement('div');
+        row.className = 'weaving-row';
+        row.appendChild(createBox());
+        row.appendChild(createFixedRow());
+        row.appendChild(createBox());
+        return row;
+    };
+    
+    container.appendChild(createRow());
+    
+    const createColumn = (position) => {
+        const column = document.createElement('div');
+        column.className = 'weaving-column';
+        column.style[position] = '0';
+        for (let i = 1; i <= 16; i++) {
+            const wrapper = document.createElement('div');
+            wrapper.className = 'weaving-circle-wrapper';
+            wrapper.appendChild(createCircle(i.toString()));
+            column.appendChild(wrapper);
+        }
+        return column;
+    };
+    
+    const grid = document.createElement('div');
+    grid.className = 'weaving-grid';
+    const ids = "ABCDEFGHIJKLMNOP";
+    for (let row = 1; row <= 16; row++) {
+        for (let char of ids) {
+            const gridBox = document.createElement('div');
+            gridBox.className = 'weaving-grid-box';
+            gridBox.id = 'weaving-grid-box-' + char + row;
+            grid.appendChild(gridBox);
+        }
+    }
+    
+    const middleRow = document.createElement('div');
+    middleRow.className = 'weaving-row';
+    middleRow.style.position = 'relative';
+    middleRow.appendChild(createColumn('left'));
+    middleRow.appendChild(grid);
+    middleRow.appendChild(createColumn('right'));
+    
+    container.appendChild(middleRow);
+    
+    const bottomRow = document.createElement('div');
+    bottomRow.className = 'weaving-row';
+    bottomRow.appendChild(createBox());
+    bottomRow.appendChild(createFixedRow());
+    bottomRow.appendChild(createBox());
+    container.appendChild(bottomRow);
+    
+    document.querySelector('.weaving-outer-container').appendChild(container);
+
+    let selectedColor = "#000000";
+
+    document.getElementById("weavingColorPicker").addEventListener("change", function(event) {
+        selectedColor = event.target.value;
+    });
+
+    document.querySelectorAll(".weaving-circle").forEach(circle => {
+        circle.addEventListener("click", function(event) {
+            const id = event.target.id.replace('weaving-circle-', '');
+            if (isNaN(id)) {
+                for (let i = 1; i <= 16; i++) {
+                    document.getElementById('weaving-grid-box-' + id + i).style.backgroundColor = selectedColor;
+                }
+            } else {
+                const rowId = parseInt(id);
+                const columns = "ABCDEFGHIJKLMNOP".split("");
+                columns.forEach(col => {
+                    document.getElementById('weaving-grid-box-' + col + rowId).style.backgroundColor = selectedColor;
+                });
+            }
+        });
+    });
+
+    document.querySelectorAll(".weaving-grid-box").forEach(gridBox => {
+        gridBox.addEventListener("click", function(event) {
+            const gridBoxId = event.target.id;
+            document.getElementById(gridBoxId).style.backgroundColor = selectedColor;
+        });
+    });
+});
+
+
+    </script>
+</body>
+</html>
