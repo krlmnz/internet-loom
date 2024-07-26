@@ -8,12 +8,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         :root {
-            --bg-color: #f8f9fa;
-            --border-color: #ddd;
-            --icon-size: 24px;
+            --bg-color: white;
+            --border-color: transparent;
+            --icon-size: 18px;
             --spacing: 8px;
             --padding: 16px;
             --container-max-width: 1140px;
+            --swatch-size: 4.236rem;
+        }
+
+        body {
+            height: 92vh;
+            background-color: beige;
         }
 
       
@@ -40,14 +46,15 @@
             display: flex;
             justify-content: space-around;
             padding: var(--padding) 0;
+            height: 100%;
         }
 
         .pattern-container,
         .loom-container,
         .color-container {
-            border: 1px solid var(--border-color);
-            background-color: var(--bg-color);
- 
+            
+            background-color: none;
+            border-radius: 10px;
             box-sizing: border-box;
             align-content: center;
         }
@@ -59,14 +66,18 @@
         }
 
         .square {
-            width: 50px;
-            height: 50px;
-            margin-bottom: var(--spacing);
-            background-color: #ccc;
+          
+            margin-bottom: 1rem;
+            border: 2px black solid;
+         
         }
        .square img {
-                width: 100%;
+        height: var(--swatch-size);
+        width: var(--swatch-size);
+  
             }
+
+           
 
         .loom-container {
             text-align: center;
@@ -80,12 +91,13 @@
             
             .container {
                 flex-direction: column;
+                height: auto;
             }
 
             .pattern-container,
             .color-container {
                 display: flex;
-                overflow-x: scroll;
+                overflow-y: scroll;
                 flex-direction: row;
             }
 
@@ -94,6 +106,13 @@
                 flex-direction: row;
             }
 
+            .color-container {
+                position: sticky;
+            bottom: 0;
+            }
+           
+
+            
             .square {
                 margin-right: var(--spacing);
             }
@@ -137,10 +156,17 @@
             position: absolute;
             top: 4px;
             right: 4px;
-            background: none;
             border: none;
             cursor: pointer;
-            padding: 0;
+            padding: 3px 2px;
+            height: 20px;
+            width: 20px;
+            border-radius: 9999px;
+            font-size: 10px;
+            line-height: 100%;
+            background-color: #fff;
+           
+
         }
 
         .lock-button.locked .fa-lock {
@@ -148,7 +174,7 @@
         }
 
         .lock-button.unlocked .fa-lock-open {
-            color: #00000066;
+            color: #00000088;
         }
 
         .utility-nav {
@@ -174,23 +200,33 @@
             margin: 0 auto;
             display: flex;
             justify-content: space-around;
-            padding: var(--padding) 0;
+          
         }
 
         .pattern-container,
         .loom-container,
         .color-container {
-            border: 1px solid var(--border-color);
-            background-color: var(--bg-color);
-            padding: var(--padding);
-            box-sizing: border-box;
            
+           
+            box-sizing: border-box;
+            overflow-x: scroll;
+           
+        }
+
+
+        .swatch {
+            display: inline-block;
+            width: var(--swatch-size);
+            height:var(--swatch-size);
+            position: relative;
+            margin: .5rem;
         }
 
         button {
 
         height: min-content;
         border: none;
+        background-color: none;
 }
 
       
@@ -253,7 +289,7 @@
         .weaving-circle {
             width: 3vw;
             height: 3vw;
-            background: black;
+            background: white;
             border-radius: 50%;
             border: 2px solid #0A0D16;
             cursor: pointer;
@@ -338,14 +374,8 @@
             }
         }
 
- 
-        .swatch {
-            display: inline-block;
-            width: 50px;
-            height: 50px;
-            position: relative;
-            margin: .5rem;
-        }
+      
+      
   
 
         
