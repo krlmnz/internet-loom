@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative App Layout</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --border-color: #ddd;
+            --icon-size: 24px;
+            --spacing: 8px;
+            --padding: 16px;
+            --container-max-width: 1140px;
+        }
+
+      
+        .utility-nav {
+            background-color: var(--bg-color);
+            padding: var(--spacing);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .utility-nav .icon-box {
+            width: var(--icon-size);
+            height: var(--icon-size);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 var(--spacing);
+        }
+
+        .container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            padding: var(--padding) 0;
+        }
+
+        .pattern-container,
+        .loom-container,
+        .color-container {
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+ 
+            box-sizing: border-box;
+            align-content: center;
+        }
+
+        .pattern-container .squares,
+        .color-container .squares {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .square {
+            width: 50px;
+            height: 50px;
+            margin-bottom: var(--spacing);
+            background-color: #ccc;
+        }
+       .square img {
+                width: 100%;
+            }
+
+        .loom-container {
+            text-align: center;
+            flex-grow: 1;
+        }
+
+       
+
+        @media (max-width: 767px) {
+
+            
+            .container {
+                flex-direction: column;
+            }
+
+            .pattern-container,
+            .color-container {
+                display: flex;
+                overflow-x: scroll;
+                flex-direction: row;
+            }
+
+            .pattern-container .squares,
+            .color-container .squares {
+                flex-direction: row;
+            }
+
+            .square {
+                margin-right: var(--spacing);
+            }
+          
+           
+
+            .pattern-container {
+                margin-bottom: var(--spacing);
+              flex-direction: row;
+            }
+
+            .loom-container {
+                width: 100%;
+                height: 66vh;
+            }
+
+            
+        }
+
+        @media (min-width: 768px) {
+            .pattern-container {
+                float: left;
+              
+            }
+
+            .loom-container {
+                width: 66%;
+            }
+
+            .color-container {
+                float: right;
+            }
+
+   
+            
+        }
+
+
+
+.lock-button {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .lock-button.locked .fa-lock {
+            color: #000;
+        }
+
+        .lock-button.unlocked .fa-lock-open {
+            color: #00000066;
+        }
+
+        .utility-nav {
+            background-color: var(--bg-color);
+            padding: var(--spacing);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .utility-nav .icon-box {
+            width: var(--icon-size);
+            height: var(--icon-size);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 var(--spacing);
+        }
+
+        .container {
+            max-width: var(--container-max-width);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-around;
+            padding: var(--padding) 0;
+        }
+
+        .pattern-container,
+        .loom-container,
+        .color-container {
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            padding: var(--padding);
+            box-sizing: border-box;
+           
+        }
+
+        button {
+
+        height: min-content;
+        border: none;
+}
+
+      
+
+     
+        .loom-container {
+         
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .weaving-outer-container {
+            display: flex;
+            flex-direction: column;
+           
+           
+        }
+
+        .weaving-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 600px; /* Max width for larger screens */
+        }
+
+        .weaving-row {
+            display: flex;
+            width: 100%;
+        }
+
+        .weaving-column {
+            height: auto;
+            width: 5vw;
+            gap: 0px;
+            display: block;
+        }
+
+        .weaving-box {
+            width: 5vw;
+            height: 5vw;
+            background: #F5F3AF;
+            display: inline-block;
+        }
+
+        .weaving-fixed-row {
+       
+            height: 5vw;
+            display: flex;
+        }
+
+        .weaving-circle-box {
+            width: 5vw;
+            height: 5vw;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .weaving-circle {
+            width: 3vw;
+            height: 3vw;
+            background: black;
+            border-radius: 50%;
+            border: 2px solid #0A0D16;
+            cursor: pointer;
+        }
+
+        .weaving-circle-wrapper {
+            height: 5vw;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .weaving-grid {
+            display: grid;
+            grid-template-columns: repeat(16, 5vw);
+            grid-template-rows: repeat(16, 5vw);
+            
+        }
+
+        .weaving-grid-box {
+            width: 5vw;
+            height: 5vw;
+            background: white;
+            border: 1px solid #DCDCDC;
+            display: inline-block;
+        }
+
+      
+    
+
+        @media (min-width: 768px) {
+
+       
+  
+            .weaving-container {
+                width: 576px;
+                height: 576px;
+            }
+
+            .weaving-row {
+                display: flex;
+            }
+
+            .weaving-column {
+                height: 512px;
+                width: 32px;
+            }
+
+            .weaving-box {
+                width: 32px;
+                height: 32px;
+            }
+
+            .weaving-fixed-row {
+                width: 512px;
+                height: 32px;
+            }
+
+            .weaving-circle-box {
+                width: 32px;
+                height: 32px;
+            }
+
+            .weaving-circle {
+                width: 16px;
+                height: 16px;
+            }
+
+            .weaving-circle-wrapper {
+                height: 32px;
+            }
+
+            .weaving-grid {
+                width: 512px;
+                grid-template-columns: repeat(16, 32px);
+                grid-template-rows: repeat(16, 32px);
+            }
+
+            .weaving-grid-box {
+                width: 32px;
+                height: 32px;
+            }
+        }
+
+ 
+        .swatch {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            position: relative;
+            margin: .5rem;
+        }
+  
+
+        
+    </style>
+</head>
+<body>
+    <div class="utility-nav d-flex justify-content-center">
+        <div class="icon-box"><i class="fas fa-home"></i></div>
+        <div class="icon-box"><i class="fas fa-user"></i></div>
+        <div class="icon-box"><i class="fas fa-cog"></i></div>
+  
+        <button onclick="exportSVG()" class="ml-2"><i class="fas fa-download"></i></button>
+    </div>
+    <div class="container">
+        <div class="pattern-container">
+            <div class="squares" id="pattern-buttons">
+                <div class="square"><img src="https://raw.githubusercontent.com/krlmnz/internet-loom/main/img/plain.svg" onclick="applyPattern(plainWeave)"></div>
+                <div class="square"><img src="https://raw.githubusercontent.com/krlmnz/internet-loom/main/img/basket.svg" onclick="applyPattern(basketWeave)"></div>
+                <div class="square"><img src="https://raw.githubusercontent.com/krlmnz/internet-loom/main/img/satin.svg" onclick="applyPattern(twillWeave)"></div>
+                <div class="square"><img src="https://raw.githubusercontent.com/krlmnz/internet-loom/main/img/twill.svg" onclick="applyPattern(satinWeave)"></div>
+                <div class="square"><img src="https://raw.githubusercontent.com/krlmnz/internet-loom/main/img/diamond.svg" onclick="applyPattern(honeycombWeave)"></div>
+                <div class="square"><img src="https://raw.githubusercontent.com/krlmnz/internet-loom/main/img/dash.svg" onclick="applyPattern(huckabackWeave)"></div>
+                <div class="square"><img src="https://raw.githubusercontent.com/krlmnz/internet-loom/main/img/wave.svg" onclick="applyPattern(mockLenoWeave)"></div>
+                <div class="square"><img src="https://raw.githubusercontent.com/krlmnz/internet-loom/main/img/zig-zag.svg" onclick="applyPattern(incaPattern)"></div>
+                <div class="square"><img src="https://raw.githubusercontent.com/krlmnz/internet-loom/main/img/hearts.svg" onclick="applyPattern(aztecPattern)"></div>
+            </div>
+        </div>
+        <div class="loom-container">
+            <div class="weaving-outer-container">
+                <div class="weaving-container"></div>
+            </div>
+        </div>
+        <div class="color-container">
+            <button id="reload-button"><i class="fas fa-sync-alt"></i></button>
+            <div class="squares" id="color-swatches">
+                <!-- Color swatches will be populated here -->
+                <div class="square"><input type="color" id="weavingColorPicker" value="#000000"></div>
+            </div>
+        </div>
+    </div>
+   
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        let lockedColors = {};
+        let selectedColor = "#000000";
+        let gridSize = 16;
+        let grid = Array.from({ length: gridSize }, () => Array(gridSize).fill('#ffffff'));
+
+        function loadColors() {
+            fetch('https://raw.githubusercontent.com/krlmnz/internet-loom/main/pantone-color.json')
+                .then(response => response.json())
+                .then(data => {
+                    const pantoneData = data;
+                    const randomColors = getRandomColors(pantoneData, 8);
+                    displayColorSwatches(randomColors);
+                })
+                .catch(error => console.error('Error fetching the JSON file:', error));
+        }
+
+        function getRandomColors(colorData, numColors) {
+            const selectedColors = [];
+            const colorCount = colorData.values.length;
+
+            for (let i = 0; i < numColors; i++) {
+                if (lockedColors[i]) {
+                    selectedColors.push(lockedColors[i]);
+                } else {
+                    const randomIndex = Math.floor(Math.random() * colorCount);
+                    selectedColors.push(colorData.values[randomIndex]);
+                }
+            }
+
+            return selectedColors;
+        }
+
+        function displayColorSwatches(colors) {
+            const outerContainer = document.getElementById('color-swatches');
+            outerContainer.innerHTML = ''; // Clear previous swatches
+            colors.forEach((color, index) => {
+                const innerContainer = document.createElement('div');
+                innerContainer.className = 'swatch';
+
+                const swatch = document.createElement('div');
+                swatch.className = 'swatch';
+                swatch.style.backgroundColor = color;
+                swatch.addEventListener('click', () => {
+                    selectedColor = color;
+                });
+
+                const lockButton = document.createElement('button');
+                lockButton.className = `lock-button ${lockedColors[index] ? 'locked' : 'unlocked'}`;
+                lockButton.setAttribute('aria-label', lockedColors[index] ? 'Unlock color' : 'Lock color');
+                lockButton.innerHTML = `<i class="fas ${lockedColors[index] ? 'fa-lock' : 'fa-lock-open'}"></i>`;
+                lockButton.addEventListener('click', () => toggleLock(index, color, lockButton));
+
+                swatch.appendChild(lockButton);
+                innerContainer.appendChild(swatch);
+                outerContainer.appendChild(innerContainer);
+            });
+        }
+
+        function toggleLock(index, color, button) {
+            if (lockedColors[index]) {
+                delete lockedColors[index];
+                button.className = 'lock-button unlocked';
+                button.setAttribute('aria-label', 'Lock color');
+                button.innerHTML = '<i class="fas fa-lock-open"></i>';
+            } else {
+                lockedColors[index] = color;
+                button.className = 'lock-button locked';
+                button.setAttribute('aria-label', 'Unlock color');
+                button.innerHTML = '<i class="fas fa-lock"></i>';
+            }
+        }
+
+        document.getElementById('reload-button').addEventListener('click', loadColors);
+        loadColors();
+
+        const plainWeave = (size) => {
+            return Array.from({ length: size }, (_, i) =>
+                Array.from({ length: size }, (_, j) => (i + j) % 2 === 0 ? 1 : 0)
+            );
+        };
+
+        const basketWeave = (size) => {
+            return Array.from({ length: size }, (_, i) =>
+                Array.from({ length: size }, (_, j) => (Math.floor(i / 2) + Math.floor(j / 2)) % 2 === 0 ? 1 : 0)
+            );
+        };
+
+        const twillWeave = (size) => {
+            return Array.from({ length: size }, (_, i) =>
+                Array.from({ length: size }, (_, j) => ((i + j) % size < size / 2) ? 1 : 0)
+            );
+        };
+
+        const satinWeave = (size) => {
+            return Array.from({ length: size }, (_, i) =>
+                Array.from({ length: size }, (_, j) => ((i * 2 + j * 3) % size) < size / 2 ? 1 : 0)
+            );
+        };
+
+        const honeycombWeave = (size) => {
+            return Array.from({ length: size }, (_, i) =>
+                Array.from({ length: size }, (_, j) => ((i ^ j) % size) < size / 2 ? 1 : 0)
+            );
+        };
+
+        const huckabackWeave = (size) => {
+            return Array.from({ length: size }, (_, i) =>
+                Array.from({ length: size }, (_, j) => ((i % 2) ^ (j % 2)) ? 1 : 0)
+            );
+        };
+
+        const mockLenoWeave = (size) => {
+            return Array.from({ length: size }, (_, i) =>
+                Array.from({ length: size }, (_, j) => (Math.floor(i / 2) % 2 === 0) ^ (Math.floor(j / 2) % 2 === 0) ? 1 : 0)
+            );
+        };
+
+        const mapuchePattern = (size) => {
+            return Array.from({ length: size }, (_, i) =>
+                Array.from({ length: size }, (_, j) => ((i % 4 === 0 || j % 4 === 0) ? 1 : 0))
+            );
+        };
+
+        const incaPattern = (size) => {
+            return Array.from({ length: size }, (_, i) =>
+                Array.from({ length: size }, (_, j) => ((i % 3 === 0 && j % 3 === 0) || ((i + j) % 3 === 0) ? 1 : 0))
+            );
+        };
+
+        const aztecPattern = (size) => {
+            return Array.from({ length: size }, (_, i) =>
+                Array.from({ length: size }, (_, j) => ((i % 2 === 0 && j % 2 === 0) || ((i + j) % 2 === 0) ? 1 : 0))
+            );
+        };
+
+        const applyPattern = (patternFunc) => {
+            const pattern = patternFunc(gridSize);
+            pattern.forEach((row, rowIndex) => {
+                row.forEach((value, colIndex) => {
+                    grid[rowIndex][colIndex] = value === 1 ? selectedColor : 'white';
+                });
+            });
+            updateGrid();
+        };
+
+        function updateGrid() {
+            for (let row = 0; row < gridSize; row++) {
+                for (let col = 0; col < gridSize; col++) {
+                    document.getElementById('weaving-grid-box-' + String.fromCharCode(65 + col) + (row + 1)).style.backgroundColor = grid[row][col];
+                }
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.weaving-container');
+
+            const createBox = () => {
+                const box = document.createElement('div');
+                box.className = 'weaving-box';
+                return box;
+            };
+
+            const createCircle = (id) => {
+                const circle = document.createElement('div');
+                circle.className = 'weaving-circle';
+                circle.id = 'weaving-circle-' + id;
+                return circle;
+            };
+
+            const createCircleBox = (id) => {
+                const circleBox = document.createElement('div');
+                circleBox.className = 'weaving-circle-box';
+                circleBox.appendChild(createCircle(id));
+                return circleBox;
+            };
+
+            const createFixedRow = () => {
+                const fixedRow = document.createElement('div');
+                fixedRow.className = 'weaving-fixed-row';
+                const ids = "ABCDEFGHIJKLMNOP";
+                for (let char of ids) {
+                    fixedRow.appendChild(createCircleBox(char));
+                }
+                return fixedRow;
+            };
+
+            const createRow = () => {
+                const row = document.createElement('div');
+                row.className = 'weaving-row';
+                row.appendChild(createBox());
+                row.appendChild(createFixedRow());
+                row.appendChild(createBox());
+                return row;
+            };
+
+            container.appendChild(createRow());
+
+            const createColumn = (position) => {
+                const column = document.createElement('div');
+                column.className = 'weaving-column';
+                column.style[position] = '0';
+                for (let i = 1; i <= 16; i++) {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'weaving-circle-wrapper';
+                    wrapper.appendChild(createCircle(i.toString()));
+                    column.appendChild(wrapper);
+                }
+                return column;
+            };
+
+            const grid = document.createElement('div');
+            grid.className = 'weaving-grid';
+            const ids = "ABCDEFGHIJKLMNOP";
+            for (let row = 1; row <= 16; row++) {
+                for (let char of ids) {
+                    const gridBox = document.createElement('div');
+                    gridBox.className = 'weaving-grid-box';
+                    gridBox.id = 'weaving-grid-box-' + char + row;
+                    grid.appendChild(gridBox);
+                }
+            }
+
+            const middleRow = document.createElement('div');
+            middleRow.className = 'weaving-row';
+            middleRow.style.position = 'relative';
+            middleRow.appendChild(createColumn('left'));
+            middleRow.appendChild(grid);
+            middleRow.appendChild(createColumn('right'));
+
+            container.appendChild(middleRow);
+
+            const bottomRow = document.createElement('div');
+            bottomRow.className = 'weaving-row';
+            bottomRow.style.marginBottom = '0';
+            bottomRow.appendChild(createBox());
+            bottomRow.appendChild(createFixedRow());
+            bottomRow.appendChild(createBox());
+            container.appendChild(bottomRow);
+
+            document.getElementById("weavingColorPicker").addEventListener("change", function(event) {
+                selectedColor = event.target.value;
+            });
+
+            document.querySelectorAll(".weaving-circle").forEach(circle => {
+                circle.addEventListener("click", function(event) {
+                    const id = event.target.id.replace('weaving-circle-', '');
+                    if (isNaN(id)) {
+                        for (let i = 1; i <= 16; i++) {
+                            document.getElementById('weaving-grid-box-' + id + i).style.backgroundColor = selectedColor;
+                        }
+                    } else {
+                        const rowId = parseInt(id);
+                        const columns = "ABCDEFGHIJKLMNOP".split("");
+                        columns.forEach(col => {
+                            document.getElementById('weaving-grid-box-' + col + rowId).style.backgroundColor = selectedColor;
+                        });
+                    }
+                });
+            });
+
+            document.querySelectorAll(".weaving-grid-box").forEach(gridBox => {
+                gridBox.addEventListener("click", function(event) {
+                    const gridBoxId = event.target.id;
+                    document.getElementById(gridBoxId).style.backgroundColor = selectedColor;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
