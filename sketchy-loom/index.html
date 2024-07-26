@@ -54,7 +54,7 @@
         .color-container {
             
             background-color: none;
-            border-radius: 10px;
+           
             box-sizing: border-box;
             align-content: center;
         }
@@ -63,6 +63,7 @@
         .color-container .squares {
             display: flex;
             flex-direction: column;
+            overflow: scroll;
         }
 
         .square {
@@ -97,8 +98,7 @@
             .pattern-container,
             .color-container {
                 display: flex;
-                overflow-y: scroll;
-                flex-direction: row;
+            
             }
 
             .pattern-container .squares,
@@ -107,7 +107,7 @@
             }
 
             .color-container {
-                position: sticky;
+                
             bottom: 0;
             }
            
@@ -197,11 +197,13 @@
 
         .container {
             max-width: var(--container-max-width);
-            margin: 0 auto;
+            margin: auto;
             display: flex;
             justify-content: space-around;
           
         }
+
+        
 
         .pattern-container,
         .loom-container,
@@ -209,7 +211,6 @@
            
            
             box-sizing: border-box;
-            overflow-x: scroll;
            
         }
 
@@ -220,6 +221,7 @@
             height:var(--swatch-size);
             position: relative;
             margin: .5rem;
+            border-radius: 8px;
         }
 
         button {
@@ -232,25 +234,20 @@
       
 
      
-        .loom-container {
+        .loom-container, .weaving-outer-container {
          
             display: flex;
             justify-content: center;
             align-items: center;
-        }
-
-        .weaving-outer-container {
-            display: flex;
-            flex-direction: column;
-           
-           
+            
+            
+          
         }
 
         .weaving-container {
-            display: flex;
+
             flex-direction: column;
-            width: 100%;
-            max-width: 600px; /* Max width for larger screens */
+         
         }
 
         .weaving-row {
@@ -375,7 +372,9 @@
         }
 
       
-      
+        .color-utility-nav{
+            display: block;
+        }
   
 
         
@@ -409,7 +408,9 @@
             </div>
         </div>
         <div class="color-container">
+            <div class="color-utility-nav">
             <button id="reload-button"><i class="fas fa-sync-alt"></i></button>
+            </div>
             <div class="squares" id="color-swatches">
                 <!-- Color swatches will be populated here -->
                 <div class="square"><input type="color" id="weavingColorPicker" value="#000000"></div>
